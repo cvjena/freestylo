@@ -1,16 +1,26 @@
 
 from freestylo.TextObject import TextObject
 
-"""
-this class is used to find polysyndeton candidates in a text.
-it uses the textobject class to store the text and its annotations.
-"""
 
 class EpiphoraAnnotation:
+    """
+    This class is used to find epiphora candidates in a text.
+    It uses the TextObject class to store the text and its annotations.
+    """
     def __init__(self, text : TextObject, min_length=2, conj = ["and", "or", "but", "nor"], punct_pos="PUNCT"):
         """
         Constructor for the EpiphoraAnnotation class.
-        @param text: TextObject stores the text and its annotations
+
+        Parameters
+        ----------
+        text : TextObject
+            The text to be analyzed.
+        min_length : int, optional
+            The minimum length of the epiphora candidates.
+        conj : list, optional
+            A list of conjunctions that should be considered when looking for epiphora.
+        punct_pos : str, optional
+            The part of speech tag for punctuation.
         """
 
         self.text = text
@@ -22,6 +32,11 @@ class EpiphoraAnnotation:
     def split_in_phrases(self):
         """
         This method splits the text into phrases.
+
+        Returns
+        -------
+        list
+            A list of lists, each containing the start and end index of a phrase.
         """
             
         phrases = []
@@ -53,6 +68,14 @@ class EpiphoraAnnotation:
         self.candidates = candidates
 
     def serialize(self) -> list:
+        """
+        This method serializes the epiphora candidates.
+
+        Returns
+        -------
+        list
+            A list of dictionaries, each containing the ids, length, and word of an epiphora candidate.
+        """
         candidates = []
         for c in self.candidates:
             candidates.append({
@@ -63,10 +86,26 @@ class EpiphoraAnnotation:
 
 
 class EpiphoraCandidate():
+    """
+    This class represents an epiphora candidate.
+    """
     def __init__(self, ids, word):
+        """
+        Constructor for the EpiphoraCandidate class.
+
+        Parameters
+        ----------
+        ids : list
+            A list of token ids that form the candidate.
+        word : str
+            The word that the candidate ends with.
+        """
         self.ids = ids
         self.word = word
 
     @property
     def score(self):
+        """
+        This property returns the score of the candidate.
+        """
         return len(self.ids)

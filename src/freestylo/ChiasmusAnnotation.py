@@ -2,17 +2,20 @@ from freestylo.TextObject import TextObject
 from freestylo.Configs import get_model_path
 import numpy as np
 
-"""
-This class is used to find chiasmus candidates in a text.
-It uses the TextObject class to store the text and its annotations.
-"""
 class ChiasmusAnnotation:
     """
-    Constructor for the ChiasmusAnnotation class.
-    @param text: TextObject stores the text and its annotations
-    @param window_size: int size of the window to search for chiasmus candidates
+    This class is used to find chiasmus candidates in a text.
+    It uses the TextObject class to store the text and its annotations.
     """
     def __init__(self, text : TextObject, window_size=30):
+        """
+        Parameters
+        ----------
+        text : TextObject
+            The text to be analyzed.
+        window_size : int, optional
+            The window size to search for chiasmus candidates
+        """
         self.text = text
         text.annotations.append(self)
         self.window_size = window_size
@@ -26,11 +29,11 @@ class ChiasmusAnnotation:
         self.model = None
 
 
-    """
-    This method finds chiasmus candidates in the text.
-    It uses the window_size to search for candidates.
-    """
     def find_candidates(self):
+        """
+        This method finds chiasmus candidates in the text.
+        It uses the window_size to search for candidates.
+        """
         pos = self.text.pos
 
         outer_matches = []
@@ -45,11 +48,26 @@ class ChiasmusAnnotation:
                 self.candidates.append(ChiasmusCandidate(A, B, B_, A_))
 
     def load_classification_model(self, model_path):
+        """
+        This method loads a classification model to score the chiasmus candidates.
+        Parameters
+        ----------
+        model_path : str
+            The path to the model file.
+        """
         import pickle
         with open(get_model_path(model_path), "rb") as f:
             self.model = pickle.load(f)
 
     def serialize(self) -> list:
+        """
+        This method serializes the chiasmus candidates.
+
+        Returns
+        -------
+        list
+            A list of serialized candidates.
+        """
         candidates = []
         for c in self.candidates:
             candidates.append({
@@ -64,14 +82,18 @@ class ChiasmusAnnotation:
         
         
     
-    """
-    This method finds matches in the pos list of the text.
-    It uses the start and end index to search for matches.
-    @param start: int start index of the search
-    @param end: int end index of the search
-    @return list of matches
-    """
     def _find_matches(self, start : int, end : int) -> list:
+        """
+        This method finds matches in the pos list of the text.
+        It uses the start and end index to search for matches.
+
+        Parameters
+        ----------
+        start : int
+            The start index of the search.
+        end : int
+            The end index of the search.
+        """
         pos = self.text.pos
 
         #if end > len(pos):
@@ -91,29 +113,31 @@ class ChiasmusAnnotation:
                 pass
         return matches
 
-    """
-    This method checks if a pos is in the allowlist or not in the denylist.
-    @param pos: str pos to check
-    @return bool True if pos is in allowlist or not in denylist, False otherwise
-    """
     def _check_pos(self, pos):
+        """
+        This method checks if a pos is in the allowlist or not in the denylist.
+
+        Parameters
+        ----------
+        pos : str
+            The pos to check.
+        """
         if len(self.allowlist) > 0 and pos not in self.allowlist:
             return False
         if len(self.denylist) > 0 and pos in self.denylist:
             return False
         return True
 
-    """
-    This method checks if the text has chiasmus candidates.
-    @return bool True if there are candidates, False otherwise
-    """
     def has_candidates(self):
+        """
+        This method checks if the text has chiasmus candidates.
+        """
         return len(self.candidates) > 0
 
-    """
-    This method scores the chiasmus candidates.
-    """
     def score_candidates(self):
+        """
+        This method scores the chiasmus candidates.
+        """
         features = []
         for candidate in self.candidates:
             features.append(self.get_features(candidate))
@@ -126,22 +150,35 @@ class ChiasmusAnnotation:
             candidate.score = score
         return True
 
-    """
-    This method ranks a chiasmus candidate.
-    @param candidate: ChiasmusCandidate candidate to rank
-    """
-    def score_candidate(self, candidate):
-
-        features = get_features(candidate)
-
     def get_features(self, candidate):
+        """
+        This method extracts features for a chiasmus candidate.
+
+        Parameters
+        ----------
+        candidate : ChiasmusCandidate
+            The candidate to extract features from.
+
+        Returns
+        -------
+        np.array
+            An array of features.
+        """
+
         dubremetz_features = self.get_dubremetz_features(candidate)
         lexical_features = self.get_lexical_features(candidate)
         semantic_features = self.get_semantic_features(candidate)
         return np.concatenate((dubremetz_features, lexical_features, semantic_features))
 
     def get_dubremetz_features(self, candidate):
+        """
+        This method extracts Dubremetz features for a chiasmus candidate.
 
+        Returns
+        -------
+        np.array
+            An array of Dubremetz features
+        """
         tokens = self.text.tokens
         lemmas = self.text.lemmas
         pos = self.text.pos
@@ -311,6 +348,14 @@ class ChiasmusAnnotation:
         return features
 
     def get_lexical_features(self, candidate):
+        """
+        This method extracts lexical features for a chiasmus candidate.
+
+        Returns
+        -------
+        np.array
+            An array of lexical features
+        """
         tokens = self.text.tokens
         lemmas = self.text.lemmas
         pos = self.text.pos
@@ -340,6 +385,14 @@ class ChiasmusAnnotation:
         return features
 
     def get_semantic_features(self, candidate):
+        """
+        This method extracts semantic features for a chiasmus candidate.
+
+        Returns
+        -------
+        np.array
+            An array of semantic features
+        """
         tokens = self.text.tokens
         lemmas = self.text.lemmas
         pos = self.text.pos
@@ -363,6 +416,16 @@ class ChiasmusAnnotation:
 
 
 def cosine_similarity(vec1, vec2):
+    """
+    This method calculates the cosine similarity between two vectors.
+
+    Parameters
+    ----------
+    vec1 : np.array
+        The first vector.
+    vec2 : np.array
+        The second vector.
+    """
     result = np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
     if np.isnan(result):
         result = 0
@@ -370,7 +433,23 @@ def cosine_similarity(vec1, vec2):
 
 
 class ChiasmusCandidate:
+    """
+    This class represents a chiasmus candidate.
+    """
     def __init__(self, A, B, B_, A_):
+        """
+        Parameters
+        ----------
+        A : int
+            Index of the first supporting word
+        B : int
+            Index of the second supporting word
+        B_ : int
+            Index of the third supporting word, paired with B
+        A_ : int
+            Index of the fourth supporting word, paired with A
+        """
+
         self.ids = [A, B, B_, A_]
         self.A = A
         self.B = B
@@ -379,6 +458,9 @@ class ChiasmusCandidate:
         self.score = None
 
     def __str__(self):
+        """
+        This method returns a string representation of the chiasmus candidate.
+        """
         return f"{self.A} {self.B} {self.B_} {self.A_}"
 
 

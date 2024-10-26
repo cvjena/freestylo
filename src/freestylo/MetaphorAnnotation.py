@@ -5,10 +5,21 @@ from freestylo.TextObject import TextObject
 from freestylo.Configs import get_model_path
 
 
-# TODO: automatically select cuda device
 
 class MetaphorAnnotation:
+    """
+    This class is used to find metaphor candidates in a text.
+    It uses the TextObject class to store the text and its annotations.
+    """
     def __init__(self, text):
+        """
+        Constructor for the MetaphorAnnotation class.
+
+        Parameters
+        ----------
+        text : TextObject
+            The text to be analyzed.
+        """
         self.text = text
         text.annotations.append(self)
         self.candidates = []
@@ -17,12 +28,23 @@ class MetaphorAnnotation:
         self.model = None
 
     def find_candidates(self):
+        """
+        This method finds metaphor candidates in the text.
+        """
         pos = self.text.pos
         for i in range(len(pos)-1):
             if pos[i] == "ADJ" and pos[i+1] == "NOUN":
                 self.candidates.append(MetaphorCandidate(i, i+1))
 
     def serialize(self) -> list:
+        """
+        This method serializes the metaphor candidates.
+
+        Returns
+        -------
+        list
+            A list of dictionaries, each containing the ids of the adjective and noun, the adjective, the noun, and the score.
+        """
         candidates = []
         for c in self.candidates:
             candidates.append({
@@ -34,6 +56,14 @@ class MetaphorAnnotation:
 
 
     def load_model(self, model_path):
+        """
+        This method loads a model for metaphor detection.
+
+        Parameters
+        ----------
+        model_path : str
+            The path to the model.
+        """
         model_path = get_model_path(model_path)
         self.model = SimilarityNN.SimilarityNN(300, 128, 1, 128, self.device)
         self.model.load_state_dict(torch.load(model_path, weights_only=True, map_location=self.device))
@@ -41,6 +71,16 @@ class MetaphorAnnotation:
         self.model.eval()
 
     def get_vectors(self):
+        """
+        This method returns the vectors of the adjective and noun candidates.
+
+        Returns
+        -------
+        np.array
+            An array of adjective vectors.
+        np.array
+            An array of noun vectors.
+        """
         adj_vectors = []
         noun_vectors = []
         for candidate in self.candidates:
@@ -52,6 +92,9 @@ class MetaphorAnnotation:
         return adj_vectors, noun_vectors
 
     def score_candidates(self):
+        """
+        This method scores the metaphor candidates.
+        """
         adj_vectors, noun_vectors = self.get_vectors()
         adj_tensor = torch.tensor(adj_vectors, device=self.device).to(self.device)
         noun_tensor = torch.tensor(noun_vectors, device=self.device).to(self.device)
@@ -64,10 +107,38 @@ class MetaphorAnnotation:
             candidate.score = score.item()
 
 def cosine_distance(a, b):
+    """
+    This function calculates the cosine distance between two vectors.
+
+    Parameters
+    ----------
+    a : torch.Tensor
+        The first vector.
+    b : torch.Tensor
+        The second vector.
+
+    Returns
+    -------
+    float
+        The cosine distance between the two vectors.
+    """
     return 1 - torch.nn.functional.cosine_similarity(a, b)
 
 class MetaphorCandidate():
+    """
+    This class represents a metaphor candidate.
+    """
     def __init__(self, adj_id, noun_id):
+        """
+        Constructor for the MetaphorCandidate class.
+
+        Parameters
+        ----------
+        adj_id : int
+            The id of the adjective.
+        noun_id : int
+            The id of the noun.
+        """
         self.ids = [adj_id, noun_id]
         self.noun_id = noun_id
         self.adj_id = adj_id

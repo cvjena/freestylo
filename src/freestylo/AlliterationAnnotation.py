@@ -6,10 +6,20 @@ It uses the TextObject class to store the text and its annotations.
 """
 
 class AlliterationAnnotation:
+    """ This class is used to find alliterations candidates in a text.
+    It uses the TextObject class to store the text and its annotations.
+    """
+
     def __init__(self, text : TextObject, max_skip = 2, min_length=3, skip_tokens=[".", ",", ":", ";", "!", "?", "…", "(", ")", "[", "]", "{", "}", "„", "“", "‚", "‘:", "‘", "’"]):
         """
-        Constructor for the AlliterationAnnotation class.
-        @param text: TextObject stores the text and its annotations
+        Parameters
+        ----------
+        text : TextObject
+            The text to be analyzed.
+        max_skip : int, optional
+        min_length : int, optional
+        skip_tokens : list, optional
+            A list of tokens that should be skipped when looking for alliterations.
         """
 
         self.text = text
@@ -64,6 +74,14 @@ class AlliterationAnnotation:
 
 
     def serialize(self) -> list:
+        """
+        This method serializes the alliteration candidates into a list of dictionaries.
+
+        Returns
+        -------
+        list
+            A list of dictionaries containing the ids, length and character of the alliteration candidates.
+        """
         candidates = []
         for c in self.candidates:
             candidates.append({
@@ -74,14 +92,31 @@ class AlliterationAnnotation:
 
 
 class AlliterationCandidate():
+    """
+    This class represents an alliteration candidate.
+    """
     def __init__(self, ids, char):
+        """
+        Parameters
+        ----------
+        ids : list
+            A list of token ids that form the alliteration candidate.
+        char : str
+            The character that the candidate starts with.
+        """
         self.ids = ids
         self.char = char
 
     @property
     def score(self):
+        """
+        This property returns the score of the alliteration candidate.
+        """
         return len(self.ids)
 
     @property
     def length(self):
+        """
+        This property returns the length of the alliteration candidate.
+        """
         return len(self.ids)

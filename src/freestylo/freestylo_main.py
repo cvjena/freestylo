@@ -9,6 +9,12 @@ import freestylo.TextObject as to
 import freestylo.TextPreprocessor as tp
 
 def main():
+    """
+    This is the main function of the freestylo tool.
+    When you run the tool from the command line, this function is called.
+    It reads the input text, preprocesses it, and adds the specified annotations.
+    The results are then serialized to a file.
+    """
     parser = argparse.ArgumentParser(description="Stylometric analysis tool")
     parser.add_argument("--input", help="Input text file")
     parser.add_argument("--output", help="Output file")
@@ -42,6 +48,9 @@ def main():
     text.serialize(args.output)
 
 def add_chiasmus_annotation(text, config):
+    """
+    This function adds chiasmus annotations to the text.
+    """
     chiasmus = ca.ChiasmusAnnotation(
             text=text,
             window_size = config["window_size"])
@@ -52,12 +61,18 @@ def add_chiasmus_annotation(text, config):
     chiasmus.score_candidates()
 
 def add_metaphor_annotation(text, config):
+    """
+    This function adds metaphor annotations to the text.
+    """
     metaphor = ma.MetaphorAnnotation(text)
     metaphor.find_candidates()
     metaphor.load_model(config["model"])
     metaphor.score_candidates()
 
 def add_epiphora_annotation(text, config):
+    """
+    This function adds epiphora annotations to the text.
+    """
     epiphora = ea.EpiphoraAnnotation(
             text = text,
             min_length = config["min_length"],
@@ -66,6 +81,9 @@ def add_epiphora_annotation(text, config):
     epiphora.find_candidates()
 
 def add_polysyndeton_annotation(text, config):
+    """
+    This function adds polysyndeton annotations to the text.
+    """
     polysyndeton = pa.PolysyndetonAnnotation(
             text = text,
             min_length = config["min_length"],
@@ -74,6 +92,9 @@ def add_polysyndeton_annotation(text, config):
     polysyndeton.find_candidates()
 
 def add_alliteration_annotation(text, config):
+    """
+    This function adds alliteration annotations to the text.
+    """
     alliteration = aa.AlliterationAnnotation(
             text = text,
             max_skip = config["max_skip"],

@@ -2,16 +2,21 @@ import spacy
 from freestylo.TextObject import TextObject
 from freestylo.MGHPreprocessor import MGHPreprocessor
 
-"""
-This class is used to preprocess text.
-It uses the TextObject class to store the text and its annotations.
-"""
 class TextPreprocessor:
     """
-    Constructor for the TextPreprocessor class.
-    @param language: str language of the text
+    This class is used to preprocess text.
+    It uses the TextObject class to store the text and its annotations.
     """
     def __init__(self, language='en'):
+        """
+        Constructor for the TextPreprocessor class.
+
+        Parameters
+        ----------
+        language : str, optional
+            The language of the text.
+        """
+
         if language == 'en':
             self.nlp = self.load_spacy_nlp('en_core_web_lg')
         elif language == 'de':
@@ -22,6 +27,19 @@ class TextPreprocessor:
 
 
     def load_spacy_nlp(self, model_name):
+        """
+        This method loads a spaCy model.
+
+        Parameters
+        ----------
+        model_name : str
+            The name of the spaCy model.
+
+        Returns
+        -------
+        spacy.lang
+            The spaCy model.
+        """
         nlp = None
         while nlp is None:
             try:
@@ -35,11 +53,10 @@ class TextPreprocessor:
         return nlp
 
 
-    """
-    This method processes the text and stores the annotations in the TextObject.
-    @param text: TextObject stores the text and its annotations
-    """
     def process_text(self, text : TextObject):
+        """
+        This method processes a text.
+        """
         processed = self.nlp(text.text)
         try:
             text.tokens = [token.text for token in processed]
