@@ -36,7 +36,7 @@ class MetaphorAnnotation:
     def load_model(self, model_path):
         model_path = get_model_path(model_path)
         self.model = SimilarityNN.SimilarityNN(300, 128, 1, 128, self.device)
-        self.model.load_state_dict(torch.load(model_path, weights_only=True))
+        self.model.load_state_dict(torch.load(model_path, weights_only=True, map_location=self.device))
         self.model = self.model.to(self.device)
         self.model.eval()
 
