@@ -1,37 +1,6 @@
-[project]
-name = "freestylo"
-version = "0.1.0"
-authors = [
-    { name = "Felix Schneider", email = "felix.schneider@uni-jena.de"},
-]
-description = "A tool for stylistic device detection"
-readme = "README.md"
-# smaller than 3.10, bigger than 3.6
-requires-python = ">=3.12"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "Operating System :: OS Independent",
-    ]
-
-[project.scripts]
-freestylo = "freestylo:freestylo_main"
-
-[project.urls]
-Homepage = "https://github.com/cvjena/freestylo"
-Issues = "https://github.com/cvjena/freestylo/issues"
-
 [build-system]
-requires = [
-    "setuptools>=75.0",
-    "torch",
-    "spacy==3.8.2",
-    "numpy",
-    "pytest",
-    "scikit-learn",
-    "scipy",
-    "cltk<1.0",
-    "wget"
+requires = ["setuptools>=75.0.0","setuptools_scm[toml]>=5", "wheel"]
+build-backend = "setuptools.build_meta"
 
-    ]
-build-backend = "setuptools.build_meta" 
-
+[tool.setuptools_scm]
+version_scheme = "no-guess-dev"

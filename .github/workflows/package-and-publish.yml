@@ -27,36 +27,36 @@ jobs:
         name: python-package-distributions
         path: dist/
 
-        #run_tests:
-        #  name: Run the tests
-        #  runs-on: ubuntu-latest
-        #  needs:
-        #  - build
-        #  steps:
-        #  - uses: actions/checkout@v4
-        #  - name: Set up Python
-        #    uses: actions/setup-python@v5
-        #    with:
-        #      python-version: "3.12"
-        #  - name: Download the distribution packages
-        #    uses: actions/download-artifact@v4
-        #    with:
-        #      name: python-package-distributions
-        #      path: dist/
-        #  - name: Install dependencies
-        #    run: >-
-        #      python3 -m
-        #      pip install
-        #      pytest
-        #      --user
-        #  - name: Install locally the built distribution packages
-        #    run: >-
-        #      python3 -m
-        #      pip install
-        #      dist/*.whl
-        #      --user
-        #  - name: Run the tests
-        #    run: python3 -m pytest
+  run_tests:
+    name: Run the tests
+    runs-on: ubuntu-latest
+    needs:
+    - build
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    - name: Download the distribution packages
+      uses: actions/download-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
+    - name: Install dependencies
+      run: >-
+        python3 -m
+        pip install
+        pytest
+        --user
+    - name: Install locally the built distribution packages
+      run: >-
+        python3 -m
+        pip install
+        dist/*.whl
+        --user
+    - name: Run the tests
+      run: python3 -m pytest
     
 
 
