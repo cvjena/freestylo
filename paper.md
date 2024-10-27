@@ -1,5 +1,5 @@
 ---
-title: 'Stylotool: An easy-to-use stylistic device detection tool for stylometry'
+title: 'FreeStylo: An easy-to-use stylistic device detection tool for stylometry'
 
 tags:
   - stylometry
