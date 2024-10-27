@@ -8,7 +8,6 @@ from cltk.tag.pos import POSTag
 from cltk.lemmatize.middle_high_german.backoff import BackoffMHGLemmatizer
 
 
-# TODO: add vector representation
 
 class MGHPreprocessor:
     """
@@ -86,7 +85,7 @@ class MGHPreprocessor:
         """
         cursor = idx
         is_end = False 
-        #find end of current word
+        # find end of current word
         while cursor < len(text):
             try:
                 if text[cursor] in [" ", "\n", "\t"]:

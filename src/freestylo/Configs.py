@@ -1,5 +1,4 @@
 import os
-import logging
 import json
 import wget
 import zipfile
@@ -14,6 +13,7 @@ model_base_url = "https://www.felixschneider.xyz/download/models/"
 
 def get_model_path(model_to_load : str) -> str:
     if os.path.exists(model_to_load):
+        print("found model locally")
         return model_to_load
 
     user_path = os.path.expanduser("~")
@@ -38,9 +38,9 @@ def get_model_path(model_to_load : str) -> str:
 
     for model in model_list:
         if not os.path.exists(os.path.join(model_path, model)):
-            logging.info(f"Downloading model {model} from {model_base_url}")
+            print(f"Downloading model {model} from {model_base_url}")
             wget.download(model_base_url+model, model_path)
-            logging.info("done")
+            print("done")
             if model.endswith(".zip"):
                 with zipfile.ZipFile(os.path.join(model_path, model), 'r') as zip_ref:
                     zip_ref.extractall(model_path)

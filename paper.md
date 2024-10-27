@@ -176,10 +176,7 @@ The standalone version can be configured using a simple JSON configuration file.
             "window_size": 30,
             "allowlist": ["NOUN", "VERB", "ADJ", "ADV"],
             "denylist": [],
-            "model": "../models/chiasmus_de.pkl"
-        },
-        "metaphor":{
-            "model": "models/metaphor_de.pkl"
+            "model": "/chiasmus_de.torch"
         }
     }
 }
