@@ -1,5 +1,7 @@
 import cltk
 import numpy as np
+import fasttext
+from freestylo.Configs import get_model_path
 
 from cltk.corpus.middle_high_german.alphabet import normalize_middle_high_german
 from cltk.tag.pos import POSTag
@@ -17,6 +19,7 @@ class MGHPreprocessor:
         Constructor for the MGHPreprocessor class.
         """
         self.text = ""
+        self.model = fasttext.load_model(get_model_path("fasttext_mgh.bin"))
         pass
 
     # make class callable with ()
@@ -51,7 +54,7 @@ class MGHPreprocessor:
 
             dep = ""
 
-            vector = np.zeros(300)
+            vector = self.model.get_word_vector(word)
 
 
             tokens.append(MGHToken(word, pos, lemma, dep, vector, idx))
