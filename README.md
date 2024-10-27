@@ -8,7 +8,7 @@ For an example on usage, see `example_chiasmus.sh` and the config file `example_
 # Installation
 The package is available on PyPi and can be installed using pip.
 ```
-piop install freestylo
+pip install freestylo
 ```
 
 # Participation
