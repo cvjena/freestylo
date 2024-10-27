@@ -14,13 +14,15 @@ tags:
 authors:
   - name: 'Felix Schneider'
     orcid: 0009-0008-9953-6695
+    corresponding: true
     affiliation: 1
   - name: 'Joachim Denzler'
+    orcid: 0000-0002-3193-3300
     affiliation: 1
 affiliations:
   - name: Computer Vision Group, Friedrich-Schiller-Universität Jena
     index: 1
-date: 23 October 2024
+date: 27 October 2024
 bibliography: paper.bib
 
 ---
