@@ -24,7 +24,7 @@ class TextPreprocessor:
     This class is used to preprocess text.
     It uses the TextObject class to store the text and its annotations.
     """
-    def __init__(self, language='en'):
+    def __init__(self, language='en', max_length=None):
         """
         Constructor for the TextPreprocessor class.
 
@@ -41,6 +41,13 @@ class TextPreprocessor:
         elif language == 'mgh':
             from MGHPreprocessor import MGHPreprocessor
             self.nlp = MGHPreprocessor()
+
+        if max_length is not None:
+            try:
+                self.nlp.max_length = max_length
+            except:
+                print("Setting nlp max length not supported for middle high german, continue...")
+
 
 
     def load_spacy_nlp(self, model_name):

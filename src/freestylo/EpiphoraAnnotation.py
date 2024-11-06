@@ -17,6 +17,7 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from freestylo.TextObject import TextObject
+from tqdm import tqdm
 
 
 class EpiphoraAnnotation:
@@ -41,6 +42,8 @@ class EpiphoraAnnotation:
         """
 
         self.text = text
+        self.type = "epiphora"
+        text.annotations.append(self)
         self.candidates = []
         self.min_length = min_length
         self.conj = conj
@@ -58,8 +61,8 @@ class EpiphoraAnnotation:
             
         phrases = []
         current_start = 0
-        for i, token in enumerate(self.text.tokens):
-            if token in self.conj or self.text.pos[i] == self.punct_pos:
+        for i, token in tqdm(enumerate(self.text.tokens)):
+            if token in self.conj or self.text.pos[i] == self.punct_pos or self.text.pos[i] in ["CONJ", "CCONJ"]:
                 if i-current_start > 2:
                     phrases.append([current_start, i])
                     current_start = i+1
@@ -74,7 +77,7 @@ class EpiphoraAnnotation:
         candidates = []
         current_candidate = EpiphoraCandidate([], "")
         phrases = self.split_in_phrases()
-        for phrase in phrases:
+        for phrase in tqdm(phrases):
             word = self.text.tokens[phrase[1]-1]
             if word != current_candidate.word:
                 if len(current_candidate.ids) >= self.min_length:
@@ -97,7 +100,7 @@ class EpiphoraAnnotation:
         for c in self.candidates:
             candidates.append({
                 "ids": c.ids,
-                "length": c.length,
+                "score": c.score,
                 "word": c.word})
         return candidates
 

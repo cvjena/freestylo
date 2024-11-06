@@ -16,6 +16,7 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from freestylo.TextObject import TextObject
+from tqdm import tqdm
 
 
 class PolysyndetonAnnotation:
@@ -42,6 +43,8 @@ class PolysyndetonAnnotation:
         """
 
         self.text = text
+        self.type = "polysyndeton"
+        text.annotations.append(self)
         self.candidates = []
         self.min_length = min_length
         self.conj = conj
@@ -62,7 +65,7 @@ class PolysyndetonAnnotation:
         phrases = []
         current_sentence_start = 0
         current_phrase_start = 0
-        for i, token in enumerate(self.text.tokens):
+        for i, token in tqdm(enumerate(self.text.tokens)):
             if token in self.sentence_end_tokens:
                 phrases.append([current_phrase_start, i])
                 current_phrase_start = i+1
@@ -95,7 +98,7 @@ class PolysyndetonAnnotation:
         """
         candidates = []
         sentences = self.split_in_phrases()
-        for sentence in sentences:
+        for sentence in tqdm(sentences):
             current_candidate = PolysyndetonCandidate([], "")
             current_word = ""
             for phrase in sentence:
@@ -109,7 +112,7 @@ class PolysyndetonAnnotation:
 
         self.candidates = []
         for candidate in candidates:
-            if candidate.word in self.conj:
+            if candidate.word in self.conj or self.text.pos[candidate.ids[0][0]] in ["CONJ", "CCONJ"]:
                 self.candidates.append(candidate)
 
 

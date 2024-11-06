@@ -17,6 +17,7 @@
 
 from freestylo.TextObject import TextObject
 from freestylo.Configs import get_model_path
+from tqdm import tqdm
 import numpy as np
 
 class ChiasmusAnnotation:
@@ -54,10 +55,10 @@ class ChiasmusAnnotation:
         pos = self.text.pos
 
         outer_matches = []
-        for i in range(len(pos)):
+        for i in tqdm(range(len(pos))):
             outer_matches += self._find_matches(i, i + self.window_size)
 
-        for match in outer_matches:
+        for match in tqdm(outer_matches):
             A, A_ = match
             start_inner = A + 1
             inner_matches = self._find_matches(start_inner, A_)
@@ -156,13 +157,15 @@ class ChiasmusAnnotation:
         This method scores the chiasmus candidates.
         """
         features = []
-        for candidate in self.candidates:
+        for candidate in tqdm(self.candidates):
             features.append(self.get_features(candidate))
         if self.model is None:
             print("Load Chiasmus Model before scoring the candidates")
             return False
         features = np.stack(features)
+        print("   scoring....")
         scores = self.model.decision_function(features)
+        print("   Done scoring")
         for score, candidate in zip(scores, self.candidates):
             candidate.score = score
         return True

@@ -16,6 +16,7 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from freestylo.TextObject import TextObject
+from tqdm import tqdm
 
 """
 This class is used to find alliterations candidates in a text.
@@ -40,6 +41,8 @@ class AlliterationAnnotation:
         """
 
         self.text = text
+        self.type = "alliteration"
+        text.annotations.append(self)
         self.candidates = []
         self.max_skip = max_skip
         self.min_length = min_length
@@ -55,7 +58,7 @@ class AlliterationAnnotation:
         open_candidates = {}
         i = 0
 
-        for i in range(len(tokens)):
+        for i in tqdm(range(len(tokens))):
             token = tokens[i]
             token_char = token[0].lower()
             # check if there is an  alliteration candidate with the current character
@@ -103,7 +106,7 @@ class AlliterationAnnotation:
         for c in self.candidates:
             candidates.append({
                 "ids": c.ids,
-                "length": c.length,
+                "score": c.score,
                 "char": c.char})
         return candidates
 

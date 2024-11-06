@@ -20,6 +20,7 @@ import torch
 import freestylo.SimilarityNN as SimilarityNN
 from freestylo.TextObject import TextObject
 from freestylo.Configs import get_model_path
+from tqdm import tqdm
 
 
 
@@ -49,7 +50,7 @@ class MetaphorAnnotation:
         This method finds metaphor candidates in the text.
         """
         pos = self.text.pos
-        for i in range(len(pos)-1):
+        for i in tqdm(range(len(pos)-1)):
             if pos[i] == "ADJ" and pos[i+1] == "NOUN":
                 self.candidates.append(MetaphorCandidate(i, i+1))
 
@@ -119,7 +120,9 @@ class MetaphorAnnotation:
         adj_metaphor_tensor = self.model(adj_tensor)
         noun_metaphor_tensor = self.model(noun_tensor)
         #scores = 1-(torch.nn.CosineSimilarity()(adj_metaphor_tensor, noun_metaphor_tensor)+1)/2
+        print("   scoring...")
         scores = cosine_distance(adj_metaphor_tensor, noun_metaphor_tensor)
+        print("   done")
         for score, candidate in zip(scores, self.candidates):
             candidate.score = score.item()
 

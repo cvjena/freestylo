@@ -48,7 +48,7 @@ class TextObject:
 
         if textfile is not None:
             try:
-                with open(textfile, 'r') as f:
+                with open(textfile, 'r', errors="ignore") as f:
                     self.text = f.read()
             except FileNotFoundError:
                 print("File not found, no textfile loaded")
@@ -77,6 +77,7 @@ class TextObject:
         with open(filename, 'w') as f:
             annotations = {}
             for anno in self.annotations:
+                print("serializing annotation", anno.type)
                 annotations[anno.type] = anno.serialize()
             save_dict = {
                 'text': self.text,
@@ -87,6 +88,7 @@ class TextObject:
                 'token_offsets': self.token_offsets,
                 'annotations': annotations
             }
+            print("save")
             with open(filename, 'w') as f:
                 json.dump(save_dict, f, indent=4)
 

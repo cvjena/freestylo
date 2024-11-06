@@ -23,6 +23,7 @@ import zipfile
 model_list = [
         "chiasmus_de.pkl",
         "metaphor_de.torch",
+        "metaphor_en.torch",
         "fasttext_mgh.bin.zip",
         ]
 
