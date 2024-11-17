@@ -83,7 +83,10 @@ class MetaphorAnnotation:
             The path to the model.
         """
         model_path = get_model_path(model_path)
-        self.model = SimilarityNN.SimilarityNN(300, 128, 1, 128, self.device)
+        input_size = 300
+        if self.text.language == "mgh":
+            input_size = 100
+        self.model = SimilarityNN.SimilarityNN(input_size, 128, 1, 128, self.device)
         self.model.load_state_dict(torch.load(model_path, weights_only=True, map_location=self.device))
         self.model = self.model.to(self.device)
         self.model.eval()

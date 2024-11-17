@@ -159,7 +159,8 @@ def add_alliteration_annotation(text, config):
     alliteration = aa.AlliterationAnnotation(
             text = text,
             max_skip = config["max_skip"],
-            min_length = config["min_length"])
+            min_length = config["min_length"],
+            ignore_tokens=config["ignore_tokens"])
     print("Finding candidates")
     alliteration.find_candidates()
     print("Done")

@@ -28,7 +28,7 @@ class AlliterationAnnotation:
     It uses the TextObject class to store the text and its annotations.
     """
 
-    def __init__(self, text : TextObject, max_skip = 2, min_length=3, skip_tokens=[".", ",", ":", ";", "!", "?", "…", "(", ")", "[", "]", "{", "}", "„", "“", "‚", "‘:", "‘", "’"]):
+    def __init__(self, text : TextObject, max_skip = 2, min_length=3, skip_tokens=[".", ",", ":", ";", "!", "?", "…", "(", ")", "[", "]", "{", "}", "„", "“", "‚", "‘:", "‘", "’"], ignore_tokens=None ):
         """
         Parameters
         ----------
@@ -47,6 +47,11 @@ class AlliterationAnnotation:
         self.max_skip = max_skip
         self.min_length = min_length
         self.skip_tokens = skip_tokens
+        if ignore_tokens is not None:
+            self.ignore_tokens = ignore_tokens
+        else:
+            self.ignore_tokens = []
+
 
 
     def find_candidates(self):
@@ -65,12 +70,19 @@ class AlliterationAnnotation:
             if not token_char.isalpha():
                 continue
             # if not, create a new one
-            if token_char not in open_candidates:
+            if token_char not in open_candidates and token_char not in self.skip_tokens and token_char not in self.ignore_tokens:
                 open_candidates[token_char] = [AlliterationCandidate([i], token_char), 0]
                 continue
             # if yes, add the current token to the candidate
-            candidate = open_candidates[token_char][0]
-            candidate.ids.append(i)
+
+            try:
+                candidate = open_candidates[token_char][0]
+            except KeyError:
+                open_candidates[token_char] = [AlliterationCandidate([i], token_char), 0]
+                candidate = open_candidates[token_char][0]
+
+            if token not in self.skip_tokens and token not in self.ignore_tokens:
+                candidate.ids.append(i)
 
             # close candidates
             keys_to_delete = []

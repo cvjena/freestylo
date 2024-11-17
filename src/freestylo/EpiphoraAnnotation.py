@@ -61,12 +61,16 @@ class EpiphoraAnnotation:
             
         phrases = []
         current_start = 0
+        punct_tokens = [".", "!", "?", ":", ";", ","]
         for i, token in tqdm(enumerate(self.text.tokens)):
-            if token in self.conj or self.text.pos[i] == self.punct_pos or self.text.pos[i] in ["CONJ", "CCONJ"]:
+            if token in self.conj or self.text.pos[i] == self.punct_pos or self.text.pos[i] in ["CONJ", "CCONJ"] or self.text.tokens[i].lower() in punct_tokens:
                 if i-current_start > 2:
-                    phrases.append([current_start, i])
-                    current_start = i+1
-        phrases.append([current_start, len(self.text.tokens)])
+                    phrases.append([current_start, i-1])
+                    current_start = i
+                elif token in [".", "!", "?"]:
+                    phrases.append([current_start, i-1])
+                    current_start = i
+        phrases.append([current_start, len(self.text.tokens)-1])
         return phrases
 
 
@@ -77,8 +81,11 @@ class EpiphoraAnnotation:
         candidates = []
         current_candidate = EpiphoraCandidate([], "")
         phrases = self.split_in_phrases()
+        #for p in phrases:
+        #    print("###")
+        #    print(" ".join(self.text.tokens[p[0]:p[1]+1]))
         for phrase in tqdm(phrases):
-            word = self.text.tokens[phrase[1]-1]
+            word = self.text.tokens[phrase[1]]
             if word != current_candidate.word:
                 if len(current_candidate.ids) >= self.min_length:
                     candidates.append(current_candidate)
