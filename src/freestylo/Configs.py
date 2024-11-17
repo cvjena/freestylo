@@ -24,6 +24,7 @@ model_list = [
         "chiasmus_de.pkl",
         "metaphor_de.torch",
         "metaphor_en.torch",
+        "metaphor_mgh.torch",
         "fasttext_mgh.bin.zip",
         ]
 
