@@ -5,7 +5,7 @@
             "window_size": 30,
             "allowlist": ["NOUN", "VERB", "ADJ", "ADV"],
             "denylist": [],
-            "model": "chiasmus_de.torch"
+            "model": "chiasmus_de.pkl"
         }
     }
 }

@@ -17,6 +17,8 @@
 
 import argparse
 import json
+import numpy as np
+
 import freestylo.ChiasmusAnnotation as ca
 import freestylo.MetaphorAnnotation as ma
 import freestylo.EpiphoraAnnotation as ea
@@ -24,6 +26,8 @@ import freestylo.PolysyndetonAnnotation as pa
 import freestylo.AlliterationAnnotation as aa
 import freestylo.TextObject as to
 import freestylo.TextPreprocessor as tp
+
+
 
 def main():
     """
@@ -33,10 +37,97 @@ def main():
     The results are then serialized to a file.
     """
     parser = argparse.ArgumentParser(description="Stylometric analysis tool")
-    parser.add_argument("--input", help="Input text file")
-    parser.add_argument("--output", help="Output file")
-    parser.add_argument("--config", help="Configuration file")
+    parser.add_argument("--mode", help="Mode of operation", default="annotate", choices=["annotate", "report"])
+    parser.add_argument("--input", help="Input text file. Used for annotate mode.", default="")
+    parser.add_argument("--output", help="Output file. Used for annotate mode.", default="")
+    parser.add_argument("--config", help="Configuration file. Used for annotate mode.", default="")
+    parser.add_argument("--data", help="Data json file. Used for report mode.", default="")
+    parser.add_argument("--device", help="Stylistic device to report. Used for report mode.", default="", choices=["chiasmus", "metaphor", "epiphora", "polysyndeton", "alliteration"])
     args = parser.parse_args()
+
+    if args.mode == "annotate":
+        annotate(args)
+    elif args.mode == "report":
+        report(args)
+
+def report(args : argparse.Namespace):
+    fail = False
+    if args.data == "":
+        print("Please specify a data file")
+        fail = True
+    if args.device == "":
+        print("Please specify a device to report")
+        fail = True
+    if fail:
+        print("Type freestylo --help for needed arguments")
+        print("Exiting...")
+        return
+
+    if args.device == "chiasmus":
+        report_chiasmus(args)
+    else:
+        raise NotImplementedError(args.device + " reporting not implemented yet")
+
+
+def build_chiasmus_sentence(tokens, ids):
+    return_list = []
+    start_id = ids[0]
+    end_id = ids[3]
+    for i in range(start_id, end_id+1):
+        if i in ids:
+            return_list += ["<" + tokens[i] + "> "]
+        else:
+            return_list += [tokens[i]]
+    return return_list
+
+def report_chiasmus(args : argparse.Namespace):
+
+    with open(args.data) as f:
+        data = json.load(f)
+
+    tokens = data["tokens"]
+    pos = data["pos"]
+
+    chiasmus = data["annotations"]["chiasmus"]
+    scores = [c["score"] for c in chiasmus]
+    ids = [c["ids"] for c in chiasmus]
+
+    index = np.argsort(scores)[::-1]
+
+    max = min(10, len(scores))
+
+    print("Top", max, "chiasmus candidates:")
+    for i in range(max):
+        score = scores[index[i]]
+        ids_local = ids[index[i]]
+
+        tokens_print = build_chiasmus_sentence(tokens, ids_local)
+        pos_print = build_chiasmus_sentence(pos, ids_local)
+
+        print("Score:", score, "ID:", ids_local)
+        print_lines_aligned([tokens_print, pos_print])
+        print()
+
+
+
+
+
+
+def annotate(args : argparse.Namespace):
+    fail = False
+    if args.input == "":
+        print("Please specify an input file")
+        fail = True
+    if args.output == "":
+        print("Please specify an output file")
+        fail = True
+    if args.config == "":
+        print("Please specify a configuration file")
+        fail = True
+    if fail:
+        print("Type freestylo --help for needed arguments")
+        print("Exiting...")
+        return
 
     print("Loading text from", args.input)
     print("Loading configuration from", args.config)
@@ -87,7 +178,6 @@ def main():
     print("Serializing results")
     text.serialize(args.output)
     print("Done")
-
 
     print("Finished")
 
@@ -164,6 +254,41 @@ def add_alliteration_annotation(text, config):
     print("Finding candidates")
     alliteration.find_candidates()
     print("Done")
+
+
+def get_longest_string(lines, index):
+    """
+    This function returns the longest string in a list of strings at a given index.
+    """
+    longest_string = 0
+    for line in lines:
+        if len(line[index]) > longest_string:
+            longest_string = len(line[index])
+    return longest_string
+
+
+def print_lines_aligned(lines):
+    num_lines = len(lines)
+    num_tokens = len(lines[0])
+
+    print_strings = ["" for _ in lines]
+
+    for t in range(num_tokens):
+        max_length = get_longest_string(lines, t) + 1
+        for l in range(num_lines):
+            string = lines[l][t].replace("\n", "")
+            string += " " * (max_length - len(string))
+            print_strings[l] += string
+
+    for ps in print_strings:
+        print(ps)
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     main()

@@ -60,10 +60,10 @@ class ChiasmusAnnotation:
 
         for match in tqdm(outer_matches):
             A, A_ = match
-            start_inner = A + 1
-            inner_matches = self._find_matches(start_inner, A_)
-            for B, B_ in inner_matches:
-                self.candidates.append(ChiasmusCandidate(A, B, B_, A_))
+            for i in tqdm(range(match[0]+1, match[1])):
+                inner_matches = self._find_matches(i, match[1])
+                for B, B_ in inner_matches:
+                    self.candidates.append(ChiasmusCandidate(A, B, B_, A_))
 
     def load_classification_model(self, model_path):
         """
@@ -97,9 +97,8 @@ class ChiasmusAnnotation:
         "score": c.score})
         return candidates
 
-        
-        
-    
+
+
     def _find_matches(self, start : int, end : int) -> list:
         """
         This method finds matches in the pos list of the text.
@@ -218,7 +217,7 @@ class ChiasmusAnnotation:
         poslist = self.poslist
         conjlist = self.conjlist
 
-        hardp_list = ['.', '(', ')', "[", "]"] 
+        hardp_list = ['.', '(', ')', "[", "]"]
         softp_list = [',', ';']
 
         features = []
@@ -345,23 +344,23 @@ class ChiasmusAnnotation:
         # Dependency score
 
         if dep[candidate.ids[1]] == dep[candidate.ids[3]]:
-            features.append(1)  
-        else: 
+            features.append(1)
+        else:
             features.append(0)
 
         if dep[candidate.ids[0]] == dep[candidate.ids[2]]:
-            features.append(1)  
-        else: 
+            features.append(1)
+        else:
             features.append(0)
 
         if dep[candidate.ids[1]] == dep[candidate.ids[2]]:
-            features.append(1)  
-        else: 
+            features.append(1)
+        else:
             features.append(0)
 
         if dep[candidate.ids[0]] == dep[candidate.ids[3]]:
-            features.append(1)  
-        else: 
+            features.append(1)
+        else:
             features.append(0)
 
         features = np.array(features)
@@ -393,7 +392,7 @@ class ChiasmusAnnotation:
 
         features = []
 
-        
+
         for i in range(len(lemmas_main)):
             for j in range(i+1, len(lemmas_main)):
                 if lemmas_main[i] == lemmas_main[j]:

@@ -3,10 +3,27 @@
 An easy-to-use package for detecting stylistic devices in text. This package is designed to be used in stylometry, the study of linguistic style.
 
 For those proficient in python, this package provides a collection of approaches to detect stylistic devices in text. For those less proficient in python, this package provides a simple interface to detect stylistic devices in text with simple commands and user-friendly configuration.
-For an example on usage, see `example_chiasmus.sh` and the config file `example_config.json`.
+
+# Usage example
+
+If after installation, run the following command in the root of the repository:
+
+```bash
+freestylo --input test/documents/chiasmustext.txt --output ./output.json --config example_config.json
+```
+
+This creates the file `output.json` in the root of the repository, which contains the detected stylistic devices in the text file `test/documents/chiasmustext.txt`.
+Afterewards, run the following command to get an overview over the results:
+
+```bash
+freestylo --mode report --data output.json --device chiasmustext
+```
 
 # Installation
+
+The minimum python requirement for this package is python 3.12.
 The package is available on PyPi and can be installed using pip.
+
 ```
 pip install freestylo
 ```
