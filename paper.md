@@ -75,6 +75,9 @@ However, most of those frameworks are not available as a ready-to-use tool, but 
 A commercial tool that was designed as a help for writers is the ProWritingAid [@prowritingaid2025], which seems to be able to find various features of texts. However, the whole extend of this tool is not visible from their information material.
 Another commercial tool which is able to find stylistic devices such as animalification, similes, imagery, onomatopoeia, epizeuxis, and anadiplosis is the Literary Device Analyzer [@aussieai_literary_device_analyzer].
 
+Besides the name similarity, this package is not related to the R stylo package [@eder2016stylor]. The R stylo package is a package for high level analysis of the writing style in a stylometric context, e.g. for authorship attribution. While the results of this package an also be used to compare the styles of different authors, the focus of this package is on the detection of stylistic devices in text.
+The resulting detections can be used for various purposes, e.g. for the comparison of different text genres or time periods, or also for direct stylometry tasks like authorship attribution.
+
 Information about the usage of stylistic devices is
 important for many branches of stylometry, especially for the analysis of
 literary texts. This package aims to fill this gap by providing an easy-to-use
@@ -90,6 +93,13 @@ other python programs, or as a stand-alone command-line tool.
 The package contains a collection of approaches to detect stylistic devices
 in text.
 By default, the preprocessing is done by spaCy[@spacy] or cltk[@cltk].
+Currently, the supported devices all work on a word level. They rely either
+on supporting words, a word pair or multiple consecutive related words.
+It would be possible to extend the package with other stylistic devices that
+follow similar principles.
+Additionally, the structure of the underlying framework is not restricted to
+these kinds of devices. The same annotation method could be used to - for example -
+mark scene boundaries and topic boundaries or changes in the tense of the text.
 The following stylistic devices are currently supported:
 
 ## Chiasmus
@@ -122,7 +132,6 @@ be part of a chiasmus.
 For English, German, and Middle High German, defaults for the lists are provided in the package.
 However, you can provide your own lists, if you want to use the chiasmus detector for a different language or if you want to use a different set of e.g. POS-tags.
 
-
 ## Metaphor
 
 The metaphor detection approach in this package has specifically been developed for the low-resource language Middle High German, but can also be applied to more common high-resource language.
@@ -136,7 +145,7 @@ by the provided word vector FastText model for Middle High German.
 ## Alliteration and Alliterative Verse
 
 The package further contains
-a detectorfor both alliteration and alliterative verse. Alliteration comprise
+a detector for both alliteration and alliterative verse. Alliteration comprise
 phrases, where the initial letters of words are the same. Since alliteration is
 a simple stylistic device, the detector is based on a simple rule-based
 approach that orders all alliterations in the given text by the number of words
@@ -178,8 +187,6 @@ Both from the library and from the command-line tool, the results can be saved i
 This json file will contain the complete tokenized text.
 When using the functions from the library, the result will be a python container with a similar structure to the JSON file.
 
-## Standalone Tool
-
 The standalone version can be configured using a simple JSON configuration file. The file should specify the language of the text and the stylistic devices to detect. The following is an example configuration file:
 
 ```json
@@ -190,7 +197,7 @@ The standalone version can be configured using a simple JSON configuration file.
             "window_size": 30,
             "allowlist": ["NOUN", "VERB", "ADJ", "ADV"],
             "denylist": [],
-            "model": "/chiasmus_de.torch"
+            "model": "/chiasmus_de.pkl"
         }
     }
 }
@@ -204,72 +211,14 @@ stylotool --config config.json --input input.txt --output output.json
 
 This will read the text from the file `input.txt`, preprocess (tokenize, POS-tag, etc.) the text, detect the stylistic devices specified in the configuration file, and write the results to the file `output.json`.
 
-## Library
-
-The library comprises a collection of functions to detect the stylistic devices, as well as preprocessing based on spaCy.
-Should the user want to use different preprocessing or use the package with a different language than the supported ones, a TextObject can be created and filled with the needed manually computed contents.
-The stylistic device detectors can then be applied to the TextObject.
-
-A typical example would look like this:
-```python
-import numpy as np
-
-from stylotool import TextObject as to
-from stylotool import TextPreprocessor as tp
-from stylotool import ChiasmusAnnotation as ca
-from stylotool import MetaphorAnnotation as ma
-
-# first, create a TextObject from the raw text
-text = to.TextObject(
-        textfile = "example_textfile.txt",
-        language="en")
-
-# create a TextPreprocessor object and process the text
-# this does the tokenizing, lemmatizing, POS-tagging, etc.
-preprocessor = tp.TextPreprocessor(language="en")
-preprocessor.process_text(text)
-
-# you can also use a different preprocessing of your choice
-# without the TextPreprocessor object
-# just fill the TextObject with the needed contents
-# those could be provided e.g. by spaCy, nltk, cltk,
-# or any other method of your choice
-
-# many digital corpora are already tokenized and POS-tagged
-# they may come in various formats, such as TEI XML, CoNLL, etc.
-# if you have a text in those formats, you can fill the TextObject
-# with the needed contents
-# you can then fill the missing values in the TextObject
-# with e.g. word vectors or other features created with a method of your choice.
-
-# you can now add various annotations to the text object
-# here, we add a chiasmus annotation
-chiasmus = ca.ChiasmusAnnotation(
-        text=text)
-chiasmus.allowlist = ["NOUN", "VERB", "ADJ", "ADV"]
-chiasmus.find_candidates()
-chiasmus.load_classification_model("chiasmus_model.pkl")
-chiasmus.score_candidates()
-
-# here, we add a metaphor annotation
-metaphor = ma.MetaphorAnnotation(
-        text=text)
-metaphor.find_candidates()
-metaphor.load_model("metaphor_model.pkl")
-metaphor.score_candidates()
-
-# finally, save the annotated text to a json file
-text.serialize("annotated_text.json")
-
-```
-
-## Create your own detectors
+# Create your own detectors
 
 
 The package is designed to be easily extendable with your own stylistic device detectors.
 The `src` folder contains example scripts that show how you can retrain the models for the existing chiasmus and metaphor detectors.
 You can also create your own stylistic device detectors by referring to the existing ones.
 Especially the Alliteration Detector provides a very simple example that can be used as a template for your own detectors.
-If you create your own detecors, pull requests are very welcome!
+Please refer to the [Repository](https://github.com/cvjena/freestylo) of the package for more information on how to create your own detectors and contribute to the project.
+If you create and want to contribute your own detecors, pull requests are very welcome!
 
 # References
