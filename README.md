@@ -67,10 +67,12 @@ The library comprises a collection of functions to detect the stylistic devices,
 Should the user want to use different preprocessing or use the package with a different language than the supported ones, a TextObject can be created and filled with the needed manually computed contents.
 The stylistic device detectors can then be applied to the TextObject.
 
-A typical example would look like this:
-```python
-import numpy as np
+The `tests` folder contains a test for every stylistic device detector.
+These tests show how to use the different detectors and how to create a TextObject.
+All classes and functions are documented by docstrings.
 
+A typical example code would look like this:
+```python
 from stylotool import TextObject as to
 from stylotool import TextPreprocessor as tp
 from stylotool import ChiasmusAnnotation as ca
@@ -117,7 +119,6 @@ metaphor.score_candidates()
 
 # finally, save the annotated text to a json file
 text.serialize("annotated_text.json")
-
 ```
 
 ## Create your own detectors!
