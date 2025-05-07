@@ -18,4 +18,8 @@
 from freestylo.freestylo_main import main
 
 if __name__ == '__main__':
+    """
+    This is the main function of the script.
+    It runs the main function from the freestylo_main module.
+    """
     main()

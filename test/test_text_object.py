@@ -23,6 +23,9 @@ import os
 import json
 
 def test_processing():
+    """
+    Test the TextObject and TextPreprocessor classes.
+    """
     text = TextObject(text="This is a test sentence. This is another test sentence.", language='en')
     preprocessor = TextPreprocessor()
     preprocessor.process_text(text)

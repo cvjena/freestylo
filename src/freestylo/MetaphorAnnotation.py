@@ -167,11 +167,3 @@ class MetaphorCandidate():
         self.adj_id = adj_id
         self.score = None
 
-        
-
-
-
-
-
-
-

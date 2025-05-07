@@ -23,6 +23,9 @@ import numpy as np
 
 
 def test_epiphora_annotation():
+    """
+    Test the EpiphoraAnnotation class.
+    """
     text = to.TextObject(
             text = "Yesterday I thought of the paper, then I wrote the paper, now I am publishing the paper. I also write another sentence, that consists of mulitple phrases, they all have different endings.",
             language="de")

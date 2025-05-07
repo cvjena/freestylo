@@ -23,6 +23,9 @@ import numpy as np
 
 
 def test_polysyndeton_annotation():
+    """
+    Test the PolysyndetonAnnotation class.
+    """
     text = to.TextObject(
             text = "Yesterday I wrote, and read, and then I slept, and then I woke up, and then I wrote again. This is a sentence. This is another sentence, and a short one at that.",
             language="de")
@@ -41,10 +44,6 @@ def test_polysyndeton_annotation():
     assert(len(polysysndeton.candidates) == 1)
     assert(len(candidate.ids) == 4)
     assert(candidate.word == "and")
-
-
-    
-
 
     for candidate in polysysndeton.candidates:
         print(" ".join(text.tokens[candidate.ids[0][0]:candidate.ids[-1][-1]+1]))

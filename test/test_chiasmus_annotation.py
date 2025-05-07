@@ -23,6 +23,10 @@ import os
 
 
 def test_chiasmus_annotation():
+    """
+    Test the ChiasmusAnnotation class.
+    """
+
     text = to.TextObject(
             text = """Wörter gibt es häufig, doch selten sind die Beispiele.
 Das ist noch ein Satz mit einem schönen Adjektiv.""",
@@ -48,11 +52,6 @@ Das ist noch ein Satz mit einem schönen Adjektiv.""",
     assert(best_candidate.B == 3) # häufig
     assert(best_candidate.B_ == 6) # selten
     assert(best_candidate.A_ == 9) # Beispiele
-
-    #assert(scores[indices[0]] > 0)
-    #assert(scores[indices[1]] < 0)
-
-
 
 
     for candidate in chiasmus.candidates:

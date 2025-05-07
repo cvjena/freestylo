@@ -23,6 +23,9 @@ import os
 
 
 def test_metaphor_annotation():
+    """
+    Test the MetaphorAnnotation class.
+    """
     text = to.TextObject(
             text = "Das ist ein wilder Satz mit zwei waghalsigen Metaphern. Nicht so wie warmes Wasser oder kaltes Eis.""",
             language="de")

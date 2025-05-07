@@ -51,6 +51,10 @@ def main():
         report(args)
 
 def report(args : argparse.Namespace):
+    """
+    This function is used to report the results of the analysis.
+    It takes the data file and the device to report as arguments.
+    """
     fail = False
     if args.data == "":
         print("Please specify a data file")
@@ -70,6 +74,10 @@ def report(args : argparse.Namespace):
 
 
 def build_chiasmus_sentence(tokens, ids):
+    """
+    This function builds a chiasmus sentence from the tokens and ids.
+    It takes the tokens and ids as arguments and returns the sentence as a list of strings.
+    """
     return_list = []
     start_id = ids[0]
     end_id = ids[3]
@@ -81,6 +89,10 @@ def build_chiasmus_sentence(tokens, ids):
     return return_list
 
 def report_chiasmus(args : argparse.Namespace):
+    """
+    This function reports the results of the chiasmus analysis.
+    It takes the data file as an argument and prints the top chiasmus candidates.
+    """
 
     with open(args.data) as f:
         data = json.load(f)
@@ -114,6 +126,12 @@ def report_chiasmus(args : argparse.Namespace):
 
 
 def annotate(args : argparse.Namespace):
+    """
+    This function is used to annotate the input text with the specified annotations.
+    It takes the input file, output file, and configuration file as arguments.
+    It loads the text, preprocesses it, and adds the specified annotations.
+    The results are then serialized to the output file.
+    """
     fail = False
     if args.input == "":
         print("Please specify an input file")
@@ -268,6 +286,9 @@ def get_longest_string(lines, index):
 
 
 def print_lines_aligned(lines):
+    """
+    This function prints a list of strings in a aligned format.
+    """
     num_lines = len(lines)
     num_tokens = len(lines[0])
 

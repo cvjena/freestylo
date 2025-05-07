@@ -22,6 +22,10 @@ import freestylo.AlliterationAnnotation as aa
 
 
 def test_alliteration_annotation():
+    """
+    Test the AlliterationAnnotation class.
+    """
+
     text = to.TextObject(
             text = "Toller Text, tierisch triftige Thesen! Aber manchmal auch keine Alliteration. So muss manchem, auch manchmal, manches durchaus mächtig missfallen.",
             language="de")
@@ -43,7 +47,7 @@ def test_alliteration_annotation():
     assert(len(alliteration.candidates[1].ids) == 6)
 
 
-    
+
 
 
     for candidate in alliteration.candidates:
