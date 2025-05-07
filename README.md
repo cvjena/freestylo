@@ -4,7 +4,9 @@ An easy-to-use package for detecting stylistic devices in text. This package is 
 
 For those proficient in python, this package provides a collection of approaches to detect stylistic devices in text. For those less proficient in python, this package provides a simple interface to detect stylistic devices in text with simple commands and user-friendly configuration.
 
-# Usage Example
+# Usage Examples
+
+## Standalone Tool
 
 If after installation, run the following command in the root of the repository:
 
@@ -28,14 +30,11 @@ The package is available on PyPi and can be installed using pip.
 pip install freestylo
 ```
 
-# Usage Details
 
 The package can be used both as a library and as a stand-alone command-line tool.
 Both from the library and from the command-line tool, the results can be saved in a JSON file.
 This json file will contain the complete tokenized text.
 When using the functions from the library, the result will be a python container with a similar structure to the JSON file.
-
-## Standalone Tool
 
 The standalone version can be configured using a simple JSON configuration file. The file should specify the language of the text and the stylistic devices to detect. The following is an example configuration file:
 
@@ -53,18 +52,10 @@ The standalone version can be configured using a simple JSON configuration file.
 }
 ```
 
-You can then run the tool using the following command:
-
-```bash
-stylotool --config config.json --input input.txt --output output.json
-```
-
-This will read the text from the file `input.txt`, preprocess (tokenize, POS-tag, etc.) the text, detect the stylistic devices specified in the configuration file, and write the results to the file `output.json`.
-
 ## Library
 
 The library comprises a collection of functions to detect the stylistic devices, as well as preprocessing based on spaCy.
-Should the user want to use different preprocessing or use the package with a different language than the supported ones, a TextObject can be created and filled with the needed manually computed contents.
+Should you want to use different preprocessing or use the package with a different language than the supported ones, a TextObject can be created and filled with the needed manually computed contents.
 The stylistic device detectors can then be applied to the TextObject.
 
 The `tests` folder contains a test for every stylistic device detector.
