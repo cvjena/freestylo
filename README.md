@@ -6,7 +6,8 @@ For those proficient in python, this package provides a collection of approaches
 
 # Installation
 
-The minimum python requirement for this package is python 3.12.
+This package needs python 3.12 to run. It is recommended to create
+a virtual environment for the package.
 The package is available on PyPi and can be installed using pip.
 
 ```
