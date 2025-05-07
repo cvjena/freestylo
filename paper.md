@@ -70,8 +70,10 @@ which is a python framework. Other frameworks would be [@kuhn2024antithesis]
 for the detection of antithesis, [@Li2023MetaphorDV] for the detection of
 metaphors, [@schneider2021datadriven] for the detection of chiasmus,
 or [@dubremetz2017chiasmus] for antimetabole detection.
+Other tools are available for e.g. the detection of rhymes [@coles2019rhyme, @marozick2021rap].
 
 However, most of those frameworks are not available as a ready-to-use tool, but as frameworks or code implementations of papers.
+Also, many are only available for a specific language.
 A commercial tool that was designed as a help for writers is the ProWritingAid [@prowritingaid2025], which seems to be able to find various features of texts. However, the whole extend of this tool is not visible from their information material.
 Another commercial tool which is able to find stylistic devices such as animalification, similes, imagery, onomatopoeia, epizeuxis, and anadiplosis is the Literary Device Analyzer [@aussieai_literary_device_analyzer].
 
@@ -84,7 +86,8 @@ literary texts. This package aims to fill this gap by providing an easy-to-use
 tool and library for the detection of those stylistic devices. Due to its
 simple and easily configurable command-line interface, the tool itself is
 geared not only to people with programming knowledge, but also to literary
-scholars that use distant reading methods in their research. The software
+scholars that use distant reading methods in their research. Additionally it supports
+multiple languages by design and is easy to extend to other languages. The software
 contained in this package is designed to be used either as a library, usable in
 other python programs, or as a stand-alone command-line tool.
 
