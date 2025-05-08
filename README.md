@@ -31,7 +31,7 @@ Afterwards, run the following command to get an overview over the results:
 ```bash
 freestylo --mode report \
     --data output.json \
-    --device chiasmustext
+    --device chiasmus
 ```
 
 The report mode is currently just implemented for Chiasmus.
