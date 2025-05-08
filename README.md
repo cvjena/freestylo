@@ -115,6 +115,13 @@ text.serialize("annotated_text.json")
 
 The file `test/test_external_source.py` shows an an example of using the library without the text preprocessor. Instead the TextObject is filled by hand with the needed contents.
 
+Currently supported stylistic devices are:
+- Alliteration
+- Chiasmus
+- Epiphora
+- Metaphor
+- Polysyndeton
+
 ## Create your own detectors!
 
 
