@@ -113,6 +113,8 @@ metaphor.score_candidates()
 text.serialize("annotated_text.json")
 ```
 
+The file `test/test_external_source.py` shows an an example of using the library without the text preprocessor. Instead the TextObject is filled by hand with the needed contents.
+
 ## Create your own detectors!
 
 

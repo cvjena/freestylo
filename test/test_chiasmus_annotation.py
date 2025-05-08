@@ -19,7 +19,6 @@ import freestylo.ChiasmusAnnotation as ca
 import freestylo.TextObject as to
 import freestylo.TextPreprocessor as tp
 import numpy as np
-import os
 
 
 def test_chiasmus_annotation():
@@ -39,7 +38,7 @@ Das ist noch ein Satz mit einem schönen Adjektiv.""",
             text=text)
     chiasmus.allowlist = ["NOUN", "VERB", "ADJ", "ADV"]
     chiasmus.find_candidates()
-    chiasmus.load_classification_model(os.path.expanduser("chiasmus_de.pkl"))
+    chiasmus.load_classification_model("chiasmus_de.pkl")
     chiasmus.score_candidates()
 
     scores = [c.score for c in chiasmus.candidates]
