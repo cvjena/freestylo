@@ -122,6 +122,8 @@ Currently supported stylistic devices are:
 - Metaphor
 - Polysyndeton
 
+Please find an overview of the detectors and their methods in the [documentation](docs/docs.md).
+
 ## Create your own detectors!
 
 
