@@ -1,0 +1,4 @@
+loaders:
+  - type: python
+    search_path: ["src"]
+    packages: ["freestylo"]
