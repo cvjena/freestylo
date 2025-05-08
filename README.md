@@ -20,14 +20,18 @@ pip install freestylo
 After installation, run the following command in the root of the repository:
 
 ```bash
-freestylo --input test/documents/chiasmustext.txt --output ./output.json --config example_config.json
+freestylo --input test/documents/chiasmustext.txt \
+    --output ./output.json \
+    --config example_config.json
 ```
 
 This creates the file `output.json` in the root of the repository, which contains the detected stylistic devices in the text file `test/documents/chiasmustext.txt`.
 Afterwards, run the following command to get an overview over the results:
 
 ```bash
-freestylo --mode report --data output.json --device chiasmustext
+freestylo --mode report \
+    --data output.json \
+    --device chiasmustext
 ```
 
 The report mode is currently just implemented for Chiasmus.
