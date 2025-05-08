@@ -47,7 +47,7 @@ The standalone version can be configured using a simple JSON configuration file.
             "window_size": 30,
             "allowlist": ["NOUN", "VERB", "ADJ", "ADV"],
             "denylist": [],
-            "model": "/chiasmus_de.torch"
+            "model": "/chiasmus_de.pkl"
         }
     }
 }
