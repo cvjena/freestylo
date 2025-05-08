@@ -17,7 +17,7 @@ pip install freestylo
 
 ## Standalone Tool
 
-If after installation, run the following command in the root of the repository:
+After installation, run the following command in the root of the repository:
 
 ```bash
 freestylo --input test/documents/chiasmustext.txt --output ./output.json --config example_config.json
