@@ -65,10 +65,10 @@ All classes and functions are documented by docstrings.
 
 A typical example code would look like this:
 ```python
-from stylotool import TextObject as to
-from stylotool import TextPreprocessor as tp
-from stylotool import ChiasmusAnnotation as ca
-from stylotool import MetaphorAnnotation as ma
+from freestylo import TextObject as to
+from freestylo import TextPreprocessor as tp
+from freestylo import ChiasmusAnnotation as ca
+from freestylo import MetaphorAnnotation as ma
 
 # first, create a TextObject from the raw text
 text = to.TextObject(
