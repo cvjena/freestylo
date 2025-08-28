@@ -1,1227 +1,365 @@
-<a id="freestylo"></a>
+# FreeStylo Documentation
 
-# freestylo
+An easy-to-use package for detecting **stylistic devices** in text. Designed for use in **stylometry**, the study of linguistic style.
 
-<a id="freestylo.EpiphoraAnnotation"></a>
+This document provides a complete reference to FreeStylo, including installation, usage as a CLI tool and as a Python library, and detailed documentation for each class.
 
-# freestylo.EpiphoraAnnotation
+---
 
-<a id="freestylo.EpiphoraAnnotation.EpiphoraAnnotation"></a>
+# Table of Contents
 
-## EpiphoraAnnotation Objects
+1. [Installation](#installation)
+2. [Command Line Interface (CLI)](#command-line-interface-cli)
+3. [Library Usage](#library-usage)
+4. [Core Classes](#core-classes)
 
-```python
-class EpiphoraAnnotation()
-```
-
-This class is used to find epiphora candidates in a text.
-It uses the TextObject class to store the text and its annotations.
-
-<a id="freestylo.EpiphoraAnnotation.EpiphoraAnnotation.__init__"></a>
-
-#### \_\_init\_\_
-
-```python
-def __init__(text: TextObject,
-             min_length=2,
-             conj=["and", "or", "but", "nor"],
-             punct_pos="PUNCT")
-```
-
-Constructor for the EpiphoraAnnotation class.
-
-Parameters
-----------
-text : TextObject
-    The text to be analyzed.
-min_length : int, optional
-    The minimum length of the epiphora candidates.
-conj : list, optional
-    A list of conjunctions that should be considered when looking for epiphora.
-punct_pos : str, optional
-    The part of speech tag for punctuation.
-
-<a id="freestylo.EpiphoraAnnotation.EpiphoraAnnotation.split_in_phrases"></a>
-
-#### split\_in\_phrases
-
-```python
-def split_in_phrases()
-```
-
-This method splits the text into phrases.
-
-Returns
--------
-list
-    A list of lists, each containing the start and end index of a phrase.
-
-<a id="freestylo.EpiphoraAnnotation.EpiphoraAnnotation.find_candidates"></a>
-
-#### find\_candidates
-
-```python
-def find_candidates()
-```
-
-This method finds epiphora candidates in the text.
-
-<a id="freestylo.EpiphoraAnnotation.EpiphoraAnnotation.serialize"></a>
-
-#### serialize
-
-```python
-def serialize() -> list
-```
-
-This method serializes the epiphora candidates.
-
-Returns
--------
-list
-    A list of dictionaries, each containing the ids, length, and word of an epiphora candidate.
-
-<a id="freestylo.EpiphoraAnnotation.EpiphoraCandidate"></a>
-
-## EpiphoraCandidate Objects
-
-```python
-class EpiphoraCandidate()
-```
-
-This class represents an epiphora candidate.
-
-<a id="freestylo.EpiphoraAnnotation.EpiphoraCandidate.__init__"></a>
-
-#### \_\_init\_\_
-
-```python
-def __init__(ids, word)
-```
-
-Constructor for the EpiphoraCandidate class.
-
-Parameters
-----------
-ids : list
-    A list of token ids that form the candidate.
-word : str
-    The word that the candidate ends with.
-
-<a id="freestylo.EpiphoraAnnotation.EpiphoraCandidate.score"></a>
-
-#### score
-
-```python
-@property
-def score()
-```
-
-This property returns the score of the candidate.
-
-<a id="freestylo.TextObject"></a>
-
-# freestylo.TextObject
-
-<a id="freestylo.TextObject.TextObject"></a>
-
-## TextObject Objects
-
-```python
-class TextObject()
-```
-
-This class is used to store a text and its annotations.
-
-<a id="freestylo.TextObject.TextObject.__init__"></a>
-
-#### \_\_init\_\_
-
-```python
-def __init__(textfile=None, text=None, language='')
-```
-
-Constructor for the TextObject class.
-
-Parameters
-----------
-textfile : str, optional
-    The path to a text file.
-text : str, optional
-
-language : str, optional
-    The language of the text.
-
-<a id="freestylo.TextObject.TextObject.save_as"></a>
-
-#### save\_as
-
-```python
-def save_as(filename)
-```
-
-This method saves the TextObject as a pickle file.
-
-Parameters
-----------
-filename : str
-
-<a id="freestylo.TextObject.TextObject.serialize"></a>
-
-#### serialize
-
-```python
-def serialize(filename)
-```
-
-This method serializes the TextObject as a JSON file.
-
-Parameters
-----------
-filename : str
-
-<a id="freestylo.TextObject.TextObject.has_text"></a>
-
-#### has\_text
-
-```python
-def has_text()
-```
-
-This method checks if the TextObject has a text.
-
-<a id="freestylo.TextObject.TextObject.has_tokens"></a>
-
-#### has\_tokens
-
-```python
-def has_tokens()
-```
-
-This method checks if the TextObject has tokens.
-
-<a id="freestylo.TextObject.TextObject.has_pos"></a>
-
-#### has\_pos
-
-```python
-def has_pos()
-```
-
-This method checks if the TextObject has part-of-speech tags.
-
-<a id="freestylo.TextObject.TextObject.has_lemmas"></a>
-
-#### has\_lemmas
-
-```python
-def has_lemmas()
-```
-
-This method checks if the TextObject has lemmas.
-
-<a id="freestylo.TextObject.TextObject.has_dep"></a>
-
-#### has\_dep
-
-```python
-def has_dep()
-```
-
-This method checks if the TextObject has dependency relations.
-
-<a id="freestylo.TextObject.TextObject.has_vectors"></a>
-
-#### has\_vectors
-
-```python
-def has_vectors()
-```
-
-This method checks if the TextObject has vectors.
-
-<a id="freestylo.TextObject.TextObject.has_annotations"></a>
-
-#### has\_annotations
-
-```python
-def has_annotations()
-```
-
-This method checks if the TextObject has annotations.
-
-<a id="freestylo.MGHPreprocessor"></a>
-
-# freestylo.MGHPreprocessor
-
-<a id="freestylo.MGHPreprocessor.MGHPreprocessor"></a>
-
-## MGHPreprocessor Objects
-
-```python
-class MGHPreprocessor()
-```
-
-This class preprocesses Middle High German text.
-
-<a id="freestylo.MGHPreprocessor.MGHPreprocessor.__init__"></a>
-
-#### \_\_init\_\_
-
-```python
-def __init__()
-```
-
-Constructor for the MGHPreprocessor class.
-
-<a id="freestylo.MGHPreprocessor.MGHPreprocessor.__call__"></a>
-
-#### \_\_call\_\_
-
-```python
-def __call__(text)
-```
-
-This method preprocesses Middle High German text.
-
-Parameters
-----------
-text : str
-    The text to be preprocessed.
-
-Returns
--------
-list
-    A list of MGH tokens.
-
-<a id="freestylo.MGHPreprocessor.MGHPreprocessor.get_next_word"></a>
-
-#### get\_next\_word
-
-```python
-def get_next_word(text, idx)
-```
-
-This method finds the next word in a text.
-
-Parameters
-----------
-text : list[str]
-    The text to be searched.
-idx : int
-    The index of the current word.
-
-Returns
--------
-str
-    The next word in the text.
-int
-    The index of the next word.
-
-<a id="freestylo.MGHPreprocessor.MGHToken"></a>
-
-## MGHToken Objects
-
-```python
-class MGHToken()
-```
-
-This class represents a Middle High German token.
-
-<a id="freestylo.MGHPreprocessor.MGHToken.__init__"></a>
-
-#### \_\_init\_\_
-
-```python
-def __init__(text, pos, lemma, dep, vector, idx)
-```
-
-Constructor for the MGHToken class.
-
-Parameters
-----------
-text : str
-    The text of the token.
-pos : str
-    The part of speech of the token.
-lemma : str
-    The lemma of the token.
-dep : str
-    The dependency of the token.
-vector : np.array
-    The vector representation of the token.
-idx : int
-    The index of the token in the text.
-
-<a id="freestylo.AlliterationAnnotation"></a>
-
-# freestylo.AlliterationAnnotation
-
-<a id="freestylo.AlliterationAnnotation.AlliterationAnnotation"></a>
-
-## AlliterationAnnotation Objects
-
-```python
-class AlliterationAnnotation()
-```
-
-This class is used to find alliterations candidates in a text.
-It uses the TextObject class to store the text and its annotations.
-
-<a id="freestylo.AlliterationAnnotation.AlliterationAnnotation.__init__"></a>
-
-#### \_\_init\_\_
-
-```python
-def __init__(text: TextObject,
-             max_skip=2,
-             min_length=3,
-             skip_tokens=[
-                 ".", ",", ":", ";", "!", "?", "…", "(", ")", "[", "]", "{",
-                 "}", "„", "“", "‚", "‘:", "‘", "’"
-             ],
-             ignore_tokens=None)
-```
-
-Parameters
-----------
-text : TextObject
-    The text to be analyzed.
-max_skip : int, optional
-min_length : int, optional
-skip_tokens : list, optional
-    A list of tokens that should be skipped when looking for alliterations.
-
-<a id="freestylo.AlliterationAnnotation.AlliterationAnnotation.find_candidates"></a>
-
-#### find\_candidates
-
-```python
-def find_candidates()
-```
-
-This method finds alliteration candidates in the text.
-
-<a id="freestylo.AlliterationAnnotation.AlliterationAnnotation.serialize"></a>
-
-#### serialize
-
-```python
-def serialize() -> list
-```
-
-This method serializes the alliteration candidates into a list of dictionaries.
-
-Returns
--------
-list
-    A list of dictionaries containing the ids, length and character of the alliteration candidates.
-
-<a id="freestylo.AlliterationAnnotation.AlliterationCandidate"></a>
-
-## AlliterationCandidate Objects
-
-```python
-class AlliterationCandidate()
-```
-
-This class represents an alliteration candidate.
-
-<a id="freestylo.AlliterationAnnotation.AlliterationCandidate.__init__"></a>
-
-#### \_\_init\_\_
-
-```python
-def __init__(ids, char)
-```
-
-Parameters
-----------
-ids : list
-    A list of token ids that form the alliteration candidate.
-char : str
-    The character that the candidate starts with.
-
-<a id="freestylo.AlliterationAnnotation.AlliterationCandidate.score"></a>
-
-#### score
-
-```python
-@property
-def score()
-```
-
-This property returns the score of the alliteration candidate.
-
-<a id="freestylo.AlliterationAnnotation.AlliterationCandidate.length"></a>
-
-#### length
-
-```python
-@property
-def length()
-```
-
-This property returns the length of the alliteration candidate.
-
-<a id="freestylo.ChiasmusAnnotation"></a>
-
-# freestylo.ChiasmusAnnotation
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusAnnotation"></a>
-
-## ChiasmusAnnotation Objects
-
-```python
-class ChiasmusAnnotation()
-```
-
-This class is used to find chiasmus candidates in a text.
-It uses the TextObject class to store the text and its annotations.
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusAnnotation.__init__"></a>
-
-#### \_\_init\_\_
-
-```python
-def __init__(text: TextObject, window_size=30)
-```
-
-Parameters
-----------
-text : TextObject
-    The text to be analyzed.
-window_size : int, optional
-    The window size to search for chiasmus candidates
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusAnnotation.find_candidates"></a>
-
-#### find\_candidates
+   * [TextObject](#textobject)
+   * [TextPreprocessor](#textpreprocessor)
+   * [MGHPreprocessor](#mghpreprocessor)
+5. [Stylistic Device Detectors](#stylistic-device-detectors)
 
-```python
-def find_candidates()
-```
-
-This method finds chiasmus candidates in the text.
-It uses the window_size to search for candidates.
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusAnnotation.load_classification_model"></a>
-
-#### load\_classification\_model
-
-```python
-def load_classification_model(model_path)
-```
-
-This method loads a classification model to score the chiasmus candidates.
-Parameters
-----------
-model_path : str
-    The path to the model file.
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusAnnotation.serialize"></a>
-
-#### serialize
-
-```python
-def serialize() -> list
-```
-
-This method serializes the chiasmus candidates.
-
-Returns
--------
-list
-    A list of serialized candidates.
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusAnnotation.has_candidates"></a>
-
-#### has\_candidates
-
-```python
-def has_candidates()
-```
-
-This method checks if the text has chiasmus candidates.
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusAnnotation.score_candidates"></a>
-
-#### score\_candidates
-
-```python
-def score_candidates()
-```
-
-This method scores the chiasmus candidates.
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusAnnotation.get_features"></a>
-
-#### get\_features
-
-```python
-def get_features(candidate)
-```
-
-This method extracts features for a chiasmus candidate.
-
-Parameters
-----------
-candidate : ChiasmusCandidate
-    The candidate to extract features from.
-
-Returns
--------
-np.array
-    An array of features.
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusAnnotation.get_dubremetz_features"></a>
-
-#### get\_dubremetz\_features
-
-```python
-def get_dubremetz_features(candidate)
-```
-
-This method extracts Dubremetz features for a chiasmus candidate.
-
-Returns
--------
-np.array
-    An array of Dubremetz features
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusAnnotation.get_lexical_features"></a>
-
-#### get\_lexical\_features
-
-```python
-def get_lexical_features(candidate)
-```
-
-This method extracts lexical features for a chiasmus candidate.
-
-Returns
--------
-np.array
-    An array of lexical features
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusAnnotation.get_semantic_features"></a>
-
-#### get\_semantic\_features
-
-```python
-def get_semantic_features(candidate)
-```
-
-This method extracts semantic features for a chiasmus candidate.
-
-Returns
--------
-np.array
-    An array of semantic features
-
-<a id="freestylo.ChiasmusAnnotation.cosine_similarity"></a>
-
-#### cosine\_similarity
-
-```python
-def cosine_similarity(vec1, vec2)
-```
-
-This method calculates the cosine similarity between two vectors.
-
-Parameters
-----------
-vec1 : np.array
-    The first vector.
-vec2 : np.array
-    The second vector.
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusCandidate"></a>
-
-## ChiasmusCandidate Objects
-
-```python
-class ChiasmusCandidate()
-```
-
-This class represents a chiasmus candidate.
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusCandidate.__init__"></a>
-
-#### \_\_init\_\_
-
-```python
-def __init__(A, B, B_, A_)
-```
-
-Parameters
-----------
-A : int
-    Index of the first supporting word
-B : int
-    Index of the second supporting word
-B_ : int
-    Index of the third supporting word, paired with B
-A_ : int
-    Index of the fourth supporting word, paired with A
-
-<a id="freestylo.ChiasmusAnnotation.ChiasmusCandidate.__str__"></a>
-
-#### \_\_str\_\_
-
-```python
-def __str__()
-```
-
-This method returns a string representation of the chiasmus candidate.
-
-<a id="freestylo.__main__"></a>
-
-# freestylo.\_\_main\_\_
-
-<a id="freestylo.TextPreprocessor"></a>
-
-# freestylo.TextPreprocessor
-
-<a id="freestylo.TextPreprocessor.TextPreprocessor"></a>
-
-## TextPreprocessor Objects
-
-```python
-class TextPreprocessor()
-```
-
-This class is used to preprocess text.
-It uses the TextObject class to store the text and its annotations.
-
-<a id="freestylo.TextPreprocessor.TextPreprocessor.__init__"></a>
-
-#### \_\_init\_\_
-
-```python
-def __init__(language='en', max_length=None)
-```
-
-Constructor for the TextPreprocessor class.
-
-Parameters
-----------
-language : str, optional
-    The language of the text.
-
-<a id="freestylo.TextPreprocessor.TextPreprocessor.load_spacy_nlp"></a>
-
-#### load\_spacy\_nlp
-
-```python
-def load_spacy_nlp(model_name)
-```
-
-This method loads a spaCy model.
-
-Parameters
-----------
-model_name : str
-    The name of the spaCy model.
-
-Returns
--------
-spacy.lang
-    The spaCy model.
-
-<a id="freestylo.TextPreprocessor.TextPreprocessor.process_text"></a>
-
-#### process\_text
-
-```python
-def process_text(text: TextObject)
-```
-
-This method processes a text.
-
-<a id="freestylo.freestylo_main"></a>
-
-# freestylo.freestylo\_main
+   * [ChiasmusAnnotation](#chiasmusannotation)
+   * [MetaphorAnnotation](#metaphorannotation)
+   * [EpiphoraAnnotation](#epiphoraannotation)
+   * [PolysyndetonAnnotation](#polysyndetonannotation)
+   * [AlliterationAnnotation](#alliterationannotation)
+6. [Models and Languages](#models-and-languages)
+7. [Extending FreeStylo](#extending-freestylo)
 
-<a id="freestylo.freestylo_main.main"></a>
+---
 
-#### main
+# Installation
 
-```python
-def main()
-```
-
-This is the main function of the freestylo tool.
-When you run the tool from the command line, this function is called.
-It reads the input text, preprocesses it, and adds the specified annotations.
-The results are then serialized to a file.
-
-<a id="freestylo.freestylo_main.report"></a>
-
-#### report
-
-```python
-def report(args: argparse.Namespace)
-```
-
-This function is used to report the results of the analysis.
-It takes the data file and the device to report as arguments.
-
-<a id="freestylo.freestylo_main.build_chiasmus_sentence"></a>
-
-#### build\_chiasmus\_sentence
-
-```python
-def build_chiasmus_sentence(tokens, ids)
-```
-
-This function builds a chiasmus sentence from the tokens and ids.
-It takes the tokens and ids as arguments and returns the sentence as a list of strings.
-
-<a id="freestylo.freestylo_main.report_chiasmus"></a>
-
-#### report\_chiasmus
-
-```python
-def report_chiasmus(args: argparse.Namespace)
-```
-
-This function reports the results of the chiasmus analysis.
-It takes the data file as an argument and prints the top chiasmus candidates.
-
-<a id="freestylo.freestylo_main.annotate"></a>
-
-#### annotate
-
-```python
-def annotate(args: argparse.Namespace)
-```
-
-This function is used to annotate the input text with the specified annotations.
-It takes the input file, output file, and configuration file as arguments.
-It loads the text, preprocesses it, and adds the specified annotations.
-The results are then serialized to the output file.
-
-<a id="freestylo.freestylo_main.add_chiasmus_annotation"></a>
-
-#### add\_chiasmus\_annotation
-
-```python
-def add_chiasmus_annotation(text, config)
-```
-
-This function adds chiasmus annotations to the text.
-
-<a id="freestylo.freestylo_main.add_metaphor_annotation"></a>
-
-#### add\_metaphor\_annotation
-
-```python
-def add_metaphor_annotation(text, config)
-```
-
-This function adds metaphor annotations to the text.
-
-<a id="freestylo.freestylo_main.add_epiphora_annotation"></a>
-
-#### add\_epiphora\_annotation
-
-```python
-def add_epiphora_annotation(text, config)
-```
-
-This function adds epiphora annotations to the text.
-
-<a id="freestylo.freestylo_main.add_polysyndeton_annotation"></a>
-
-#### add\_polysyndeton\_annotation
-
-```python
-def add_polysyndeton_annotation(text, config)
-```
-
-This function adds polysyndeton annotations to the text.
-
-<a id="freestylo.freestylo_main.add_alliteration_annotation"></a>
-
-#### add\_alliteration\_annotation
-
-```python
-def add_alliteration_annotation(text, config)
-```
-
-This function adds alliteration annotations to the text.
-
-<a id="freestylo.freestylo_main.get_longest_string"></a>
+FreeStylo requires **Python 3.12**.
 
-#### get\_longest\_string
+Install from PyPI:
 
-```python
-def get_longest_string(lines, index)
-```
-
-This function returns the longest string in a list of strings at a given index.
-
-<a id="freestylo.freestylo_main.print_lines_aligned"></a>
-
-#### print\_lines\_aligned
-
-```python
-def print_lines_aligned(lines)
+```bash
+pip install freestylo
 ```
 
-This function prints a list of strings in a aligned format.
+It is recommended to install into a virtual environment.
 
-<a id="freestylo.SimilarityNN"></a>
+---
 
-# freestylo.SimilarityNN
+# Command Line Interface (CLI)
 
-<a id="freestylo.SimilarityNN.SimilarityNN"></a>
+### Annotate Mode
 
-## SimilarityNN Objects
+Annotates a text with stylistic devices:
 
-```python
-class SimilarityNN(nn.Module)
+```bash
+freestylo --mode annotate \
+    --input input.txt \
+    --output output.json \
+    --config config.json
 ```
 
-This class defines a neural network for metaphor detection.
+### Report Mode
 
-<a id="freestylo.SimilarityNN.SimilarityNN.__init__"></a>
+Reports the results of annotations:
 
-#### \_\_init\_\_
-
-```python
-def __init__(input_dim, hidden_dim, num_hidden, output_dim, device)
+```bash
+freestylo --mode report --data output.json
 ```
 
-Constructor for the SimilarityNN class.
+Currently reports for **Chiasmus**, **Metaphor**, **Epiphora**, and **Alliteration** are supported.
 
-Parameters
-----------
-input_dim : int
-    The dimension of the input.
-hidden_dim : int
-    The dimension of the hidden layers.
-num_hidden : int
-    The number of hidden layers.
-output_dim : int
-    The dimension of the output.
-device : str
-    The device to run the model on.
+### Example Config File
 
-<a id="freestylo.SimilarityNN.SimilarityNN.forward"></a>
-
-#### forward
-
-```python
-def forward(data)
+```json
+{
+  "language": "de",
+  "annotations": {
+    "chiasmus": {
+      "window_size": 30,
+      "allowlist": ["NOUN", "VERB", "ADJ", "ADV"],
+      "denylist": [],
+      "model": "chiasmus_de.pkl"
+    },
+    "metaphor": {
+      "model": "metaphor_de.torch"
+    },
+    "epiphora": {
+      "min_length": 2,
+      "conj": ["und", "oder", "aber", "noch"],
+      "punct_pos": "PUNCT"
+    }
+  }
+}
 ```
-
-This method defines the forward pass of the neural network.
 
-Parameters
-----------
-data : tensor
-    The input data.
+---
 
-Returns
--------
-tensor
-    The output of the neural network.
+# Library Usage
 
-<a id="freestylo.PolysyndetonAnnotation"></a>
+Example usage as a Python library:
 
-# freestylo.PolysyndetonAnnotation
-
-<a id="freestylo.PolysyndetonAnnotation.PolysyndetonAnnotation"></a>
-
-## PolysyndetonAnnotation Objects
-
 ```python
-class PolysyndetonAnnotation()
-```
+from freestylo import TextObject, TextPreprocessor
+from freestylo import ChiasmusAnnotation, MetaphorAnnotation
 
-This class is used to find polysyndeton candidates in a text.
-It uses the TextObject class to store the text and its annotations.
+# Create a TextObject
+text = TextObject(text="This is an example text.", language="en")
 
-<a id="freestylo.PolysyndetonAnnotation.PolysyndetonAnnotation.__init__"></a>
+# Preprocess the text
+pre = TextPreprocessor(language="en")
+pre.process_text(text)
 
-#### \_\_init\_\_
+# Run detectors
+chiasmus = ChiasmusAnnotation(text)
+chiasmus.allowlist = ["NOUN", "VERB", "ADJ", "ADV"]
+chiasmus.find_candidates()
+chiasmus.load_classification_model("chiasmus_de.pkl")
+chiasmus.score_candidates()
 
-```python
-def __init__(text: TextObject,
-             min_length=2,
-             conj=["and", "or", "but", "nor"],
-             sentence_end_tokens=[".", "?", "!", ":", ";", "..."],
-             punct_pos="PUNCT")
+# Serialize results
+text.serialize("output.json")
 ```
-
-Constructor for the PolysyndetonAnnotation class.
-
-Parameters
-----------
-text : TextObject
-    The text to be analyzed.
-min_length : int, optional
-    The minimum length of the polysyndeton candidates.
-conj : list, optional
-    A list of conjunctions that should be considered when looking for polysyndeton.
-sentence_end_tokens : list, optional
-    A list of tokens that indicate the end of a sentence.
-punct_pos : str, optional
-    The part of speech tag for punctuation.
 
-<a id="freestylo.PolysyndetonAnnotation.PolysyndetonAnnotation.split_in_phrases"></a>
+---
 
-#### split\_in\_phrases
+# Core Classes
 
-```python
-def split_in_phrases()
-```
+## TextObject
 
-This method splits the text into phrases.
+**Purpose:** Represents a text and its linguistic annotations.
 
-Returns
--------
-list
-    A list of lists, each containing the start and end index of a phrase.
+### Member Variables
 
-<a id="freestylo.PolysyndetonAnnotation.PolysyndetonAnnotation.check_add_candidate"></a>
+* `textfile`: path to file (str, optional)
+* `text`: raw text (str)
+* `language`: language code (str)
+* `tokens`: list of tokens
+* `pos`: list of POS tags
+* `lemmas`: list of lemmas
+* `dep`: list of dependency relations
+* `vectors`: list of word vectors
+* `annotations`: list of annotations (detector objects)
+* `token_offsets`: list of (start, end) positions for tokens
 
-#### check\_add\_candidate
-
-```python
-def check_add_candidate(candidates, candidate)
-```
+### Functions
 
-This method checks if the candidate is long enough to be a polysyndeton candidate.
+* `save_as(filename)`: Save as pickle.
+* `serialize(filename)`: Save as JSON.
+* `has_text()`: Check if text exists.
+* `has_tokens()`, `has_pos()`, `has_lemmas()`, `has_dep()`, `has_vectors()`, `has_annotations()`: Availability checks.
 
-Parameters
-----------
-candidates : list
-    A list of polysyndeton candidates.
+---
 
-<a id="freestylo.PolysyndetonAnnotation.PolysyndetonAnnotation.find_candidates"></a>
+## TextPreprocessor
 
-#### find\_candidates
+**Purpose:** Preprocesses text using spaCy or Middle High German pipeline.
 
-```python
-def find_candidates()
-```
+### Member Variables
 
-This method finds polysyndeton candidates in the text.
+* `nlp`: the loaded spaCy pipeline or `MGHPreprocessor`
 
-<a id="freestylo.PolysyndetonAnnotation.PolysyndetonAnnotation.serialize"></a>
+### Functions
 
-#### serialize
+* `process_text(text: TextObject)`: fills the TextObject with tokens, POS, lemmas, dependencies, vectors, token offsets.
 
-```python
-def serialize() -> list
-```
+---
 
-This method serializes the polysyndeton candidates.
+## MGHPreprocessor
 
-Returns
--------
-list
-    A list of dictionaries, each containing the ids, word, and score of a polysyndeton candidate.
+**Purpose:** Preprocessor for Middle High German texts using CLTK and FastText.
 
-<a id="freestylo.PolysyndetonAnnotation.PolysyndetonCandidate"></a>
+### Functions
 
-## PolysyndetonCandidate Objects
+* `__call__(text: str) -> list[MGHToken]`: tokenizes and annotates MHG text.
+* `get_next_word(text, idx)`: helper to get next word.
 
-```python
-class PolysyndetonCandidate()
-```
+### MGHToken
 
-This class represents a polysyndeton candidate.
+Represents one Middle High German token.
 
-<a id="freestylo.PolysyndetonAnnotation.PolysyndetonCandidate.__init__"></a>
+* `text`, `pos`, `lemma`, `dep`, `vector`, `idx`
 
-#### \_\_init\_\_
+---
 
-```python
-def __init__(ids, word)
-```
+# Stylistic Device Detectors
 
-Constructor for the PolysyndetonCandidate class.
+Each detector appends itself to the `TextObject.annotations` and provides candidates.
 
-Parameters
-----------
-ids : list
-    A list of token ids that form the candidate.
-word : str
-    The word that the candidate ends with.
+---
 
-<a id="freestylo.PolysyndetonAnnotation.PolysyndetonCandidate.score"></a>
+## ChiasmusAnnotation
 
-#### score
+**Purpose:** Detects **Chiasmus** patterns (ABBA structures).
 
-```python
-@property
-def score()
-```
+### Member Variables
 
-This property returns the score of the polysyndeton candidate.
+* `text`: TextObject
+* `window_size`: size of search window (default 30)
+* `candidates`: list of ChiasmusCandidate
+* `allowlist`, `denylist`, `neglist`, `poslist`, `conjlist`: POS filters
+* `model`: classification model (sklearn SVM)
+* `type`: "chiasmus"
 
-<a id="freestylo.Configs"></a>
+### Functions
 
-# freestylo.Configs
+* `find_candidates()`: identifies ABBA candidates.
+* `load_classification_model(path)`: loads classification model (pickle).
+* `score_candidates()`: scores candidates with model.
+* `serialize()`: serialize candidates.
+* `get_features(candidate)`: extract feature vector.
+* `get_dubremetz_features`, `get_lexical_features`, `get_semantic_features`: feature extraction helpers.
 
-<a id="freestylo.Configs.get_model_path"></a>
+### Additional Info
 
-#### get\_model\_path
+* **Model required**: yes (SVM, `chiasmus_de.pkl`).
+* **Language**: works for all languages, though the included model is trained on German.
 
-```python
-def get_model_path(model_to_load: str) -> str
-```
+---
 
-This function checks if the model is already downloaded.
-If not, it downloads the model from the given URL and extracts it.
+## MetaphorAnnotation
 
-<a id="freestylo.MetaphorAnnotation"></a>
+**Purpose:** Detects **Metaphors** by adjective–noun pairs.
 
-# freestylo.MetaphorAnnotation
+### Member Variables
 
-<a id="freestylo.MetaphorAnnotation.MetaphorAnnotation"></a>
+* `text`: TextObject
+* `candidates`: list of MetaphorCandidate
+* `device`: torch device (CPU/GPU)
+* `type`: "metaphor"
+* `model`: PyTorch model
 
-## MetaphorAnnotation Objects
+### Functions
 
-```python
-class MetaphorAnnotation()
-```
+* `find_candidates()`: finds ADJ–NOUN pairs.
+* `serialize()`: serialize candidates.
+* `load_model(path)`: loads PyTorch model.
+* `get_vectors()`: returns adj/noun vectors.
+* `score_candidates()`: assigns scores.
 
-This class is used to find metaphor candidates in a text.
-It uses the TextObject class to store the text and its annotations.
+### Additional Info
 
-<a id="freestylo.MetaphorAnnotation.MetaphorAnnotation.__init__"></a>
+* **Model required**: yes (`metaphor_de.torch`, `metaphor_mgh.torch`).
+* **Languages supported**: German (`de`), Middle High German (`mgh`).
 
-#### \_\_init\_\_
+---
 
-```python
-def __init__(text)
-```
+## EpiphoraAnnotation
 
-Constructor for the MetaphorAnnotation class.
+**Purpose:** Detects **Epiphora** (repetition at phrase endings).
 
-Parameters
-----------
-text : TextObject
-    The text to be analyzed.
+### Member Variables
 
-<a id="freestylo.MetaphorAnnotation.MetaphorAnnotation.find_candidates"></a>
+* `text`: TextObject
+* `type`: "epiphora"
+* `candidates`: list of EpiphoraCandidate
+* `min_length`: minimum repeated phrases
+* `conj`: conjunctions for splitting
+* `punct_pos`: POS tag for punctuation
 
-#### find\_candidates
+### Functions
 
-```python
-def find_candidates()
-```
+* `split_in_phrases()`: segment text.
+* `find_candidates()`: detect repetitions.
+* `serialize()`: serialize candidates.
 
-This method finds metaphor candidates in the text.
+### EpiphoraCandidate
 
-<a id="freestylo.MetaphorAnnotation.MetaphorAnnotation.serialize"></a>
+* `ids`: list of phrases
+* `word`: repeated word
+* `score`: number of repetitions
 
-#### serialize
+### Additional Info
 
-```python
-def serialize() -> list
-```
+* **Model required**: no.
+* **Languages supported**: all.
 
-This method serializes the metaphor candidates.
+---
 
-Returns
--------
-list
-    A list of dictionaries, each containing the ids of the adjective and noun, the adjective, the noun, and the score.
+## PolysyndetonAnnotation
 
-<a id="freestylo.MetaphorAnnotation.MetaphorAnnotation.load_model"></a>
+**Purpose:** Detects **Polysyndeton** (excessive conjunction use).
 
-#### load\_model
+### Member Variables
 
-```python
-def load_model(model_path)
-```
+* `text`: TextObject
+* `type`: "polysyndeton"
+* `candidates`: list of PolysyndetonCandidate
+* `min_length`: minimum length
+* `conj`: conjunction list
+* `sentence_end_tokens`: sentence delimiters
+* `punct_pos`: POS for punctuation
 
-This method loads a model for metaphor detection.
+### Functions
 
-Parameters
-----------
-model_path : str
-    The path to the model.
+* `split_in_phrases()`: segment into phrases.
+* `find_candidates()`: detect polysyndeton.
+* `check_add_candidate()`: helper.
+* `serialize()`: serialize candidates.
 
-<a id="freestylo.MetaphorAnnotation.MetaphorAnnotation.get_vectors"></a>
+### PolysyndetonCandidate
 
-#### get\_vectors
+* `ids`: phrase indices
+* `word`: repeated word
+* `score`: number of repetitions
 
-```python
-def get_vectors()
-```
+### Additional Info
 
-This method returns the vectors of the adjective and noun candidates.
+* **Model required**: no.
+* **Languages supported**: all.
 
-Returns
--------
-np.array
-    An array of adjective vectors.
-np.array
-    An array of noun vectors.
+---
 
-<a id="freestylo.MetaphorAnnotation.MetaphorAnnotation.score_candidates"></a>
+## AlliterationAnnotation
 
-#### score\_candidates
+**Purpose:** Detects **Alliteration** (repetition of initial sounds/letters).
 
-```python
-def score_candidates()
-```
+### Member Variables
 
-This method scores the metaphor candidates.
+* `text`: TextObject
+* `type`: "alliteration"
+* `candidates`: list of AlliterationCandidate
+* `max_skip`: allowed distance between hits
+* `min_length`: minimum sequence length
+* `skip_tokens`: tokens to skip
+* `ignore_tokens`: tokens to ignore
 
-<a id="freestylo.MetaphorAnnotation.cosine_distance"></a>
+### Functions
 
-#### cosine\_distance
+* `find_candidates()`: detect alliterations.
+* `serialize()`: serialize candidates.
 
-```python
-def cosine_distance(a, b)
-```
+### AlliterationCandidate
 
-This function calculates the cosine distance between two vectors.
+* `ids`: token indices
+* `char`: repeated character
+* `score`: length of sequence
 
-Parameters
-----------
-a : torch.Tensor
-    The first vector.
-b : torch.Tensor
-    The second vector.
+### Additional Info
 
-Returns
--------
-float
-    The cosine distance between the two vectors.
+* **Model required**: no.
+* **Languages supported**: all.
 
-<a id="freestylo.MetaphorAnnotation.MetaphorCandidate"></a>
+---
 
-## MetaphorCandidate Objects
+# Models and Languages
 
-```python
-class MetaphorCandidate()
-```
+Some detectors require pre-trained models. Models are downloaded automatically to `~/.freestylo/models/` if not found.
 
-This class represents a metaphor candidate.
+| Detector     | Model Required? | Model File(s)                             | Supported Languages        |
+| ------------ | --------------- | ----------------------------------------- | -------------------------- |
+| Chiasmus     | Yes             | `chiasmus_de.pkl`                         | All (trained on German)    |
+| Metaphor     | Yes             | `metaphor_de.torch`, `metaphor_mgh.torch` | German, Middle High German |
+| Epiphora     | No              | –                                         | All                        |
+| Polysyndeton | No              | –                                         | All                        |
+| Alliteration | No              | –                                         | All                        |
 
-<a id="freestylo.MetaphorAnnotation.MetaphorCandidate.__init__"></a>
+> **Note:** *"Model Required?"* means whether a detector needs a trained ML model to function. If no, the detector is rule-based.
 
-#### \_\_init\_\_
+---
 
-```python
-def __init__(adj_id, noun_id)
-```
+# Extending FreeStylo
 
-Constructor for the MetaphorCandidate class.
+You can create new detectors by following the pattern of existing ones:
 
-Parameters
-----------
-adj_id : int
-    The id of the adjective.
-noun_id : int
-    The id of the noun.
+* Subclass-like class with `find_candidates()` and `serialize()`.
+* Append to `TextObject.annotations`.
+* For ML-based detectors, integrate model loading with `Configs.get_model_path()`.
 
+Contributions of new detectors are welcome (see `CONTRIBUTING.md`).

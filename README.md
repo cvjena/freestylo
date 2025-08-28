@@ -144,3 +144,100 @@ It is designed to be a living project that is constantly improved and extended.
 If you have implemented your own stylistic device detector, please consider contributing it to the package.
 For details please refer to the [contribution guidelines](CONTRIBUTING.md).
 Also, if you have any suggestions for improvements or if you find any bugs, please open an issue on the GitHub page.
+
+# FreeStylo Configuration (`.json`) — Parameters & Example
+
+This file controls **annotate** mode (`freestylo --mode annotate`).
+Top level keys configure language/NLP; the `annotations` object enables individual detectors and passes their parameters.
+
+---
+
+## Top-Level Keys
+
+| Key              | Type            | Required | Values / Notes |
+|------------------|-----------------|----------|----------------|
+| `language`       | string          | **yes**  | `"en"`, `"de"`, or `"mgh"`. Selects the preprocessor: <br>• `en` → spaCy `en_core_web_lg` <br>• `de` → spaCy `de_core_news_lg` <br>• `mgh` → custom Middle High German pipeline |
+| `nlp_max_length` | integer         | no       | Overrides spaCy `nlp.max_length` for long texts (ignored for MHG pipeline). |
+| `annotations`    | object (dict)   | **yes**  | Keys are annotation names. Only listed annotations are run. See per-annotation blocks below. |
+
+---
+
+## `annotations` Block
+
+Add one object per enabled annotation. Supported keys:
+
+### 1) `chiasmus`
+| Key          | Type          | Required | Default | Notes |
+|--------------|---------------|----------|---------|------|
+| `window_size`| integer       | **yes**  | 30      | Search window (in tokens) used to find candidates. |
+| `allowlist`  | array<string> | **yes**  | `[]`    | POS tags allowed (e.g. `["NOUN","VERB","ADJ","ADV"]`). If non-empty, only these POS can anchor candidates. |
+| `denylist`   | array<string> | **yes**  | `[]`    | POS tags to exclude. Ignored if empty. |
+| `model`      | string        | **yes**  | —       | Model filename or path (e.g. `"chiasmus_de.pkl"`). Resolved via `Configs.get_model_path` (downloads to `~/.freestylo/models/` if missing). |
+
+### 2) `metaphor`
+| Key     | Type    | Required | Default | Notes |
+|---------|---------|----------|---------|------|
+| `model` | string  | **yes**  | —       | Torch checkpoint filename/path (e.g. `"metaphor_de.torch"`, `"metaphor_en.torch"`, `"metaphor_mgh.torch"`). Resolved and downloaded if needed. |
+
+### 3) `epiphora`
+| Key          | Type           | Required | Default                             | Notes |
+|--------------|----------------|----------|-------------------------------------|------|
+| `min_length` | integer        | **yes**  | 2                                   | Minimum number of repeated phrase endings. |
+| `conj`       | array<string>  | **yes**  | `["and","or","but","nor"]`          | Conjunctions used to segment phrases. |
+| `punct_pos`  | string         | **yes**  | `"PUNCT"`                           | POS tag string treated as punctuation. |
+
+### 4) `polysyndeton`
+| Key                  | Type           | Required | Default                                      | Notes |
+|----------------------|----------------|----------|----------------------------------------------|------|
+| `min_length`         | integer        | **yes**  | 2                                            | Minimum number of consecutive phrases starting with the same conjunction. |
+| `conj`               | array<string>  | **yes**  | `["and","or","but","nor"]`                   | Conjunction lexicon. |
+| `sentence_end_tokens`| array<string>  | **yes**  | `[".", "?", "!", ":", ";", "..."]`           | Tokens that terminate a sentence during phrase splitting. |
+| `punct_pos`          | string         | **yes**  | `"PUNCT"`                                    | POS tag string treated as punctuation. |
+
+### 5) `alliteration`
+| Key           | Type           | Required | Default | Notes |
+|---------------|----------------|----------|---------|------|
+| `max_skip`    | integer        | **yes**  | 2       | Max token gap allowed between consecutive hits (punctuation can extend the effective gap internally). |
+| `min_length`  | integer        | **yes**  | 3       | Minimum tokens participating in the run. |
+| `ignore_tokens` | array<string>| **yes**  | `[]`    | Exact tokens to ignore during matching (e.g. stopwords or domain-specific noise). |
+
+> **Outputs:** All annotations append themselves to the `TextObject` and are written into the final JSON produced by `--output` via `text.serialize(...)`.
+
+---
+
+## Example
+```json
+
+{
+  "language": "de",
+  "nlp_max_length": 3000000,
+  "annotations": {
+    "chiasmus": {
+      "window_size": 30,
+      "allowlist": ["NOUN", "VERB", "ADJ", "ADV"],
+      "denylist": [],
+      "model": "chiasmus_de.pkl"
+    },
+    "metaphor": {
+      "model": "metaphor_de.torch"
+    },
+    "epiphora": {
+      "min_length": 2,
+      "conj": ["und", "oder", "aber", "noch"],
+      "punct_pos": "PUNCT"
+    },
+    "polysyndeton": {
+      "min_length": 2,
+      "conj": ["und", "oder", "aber", "noch"],
+      "sentence_end_tokens": [".", "?", "!", ":", ";", "..."],
+      "punct_pos": "PUNCT"
+    },
+    "alliteration": {
+      "max_skip": 2,
+      "min_length": 3,
+      "ignore_tokens": ["–", "—", "„", "“"]
+    }
+  }
+}
+
+```

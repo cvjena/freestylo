@@ -3,9 +3,29 @@
     "annotations": {
         "chiasmus": {
             "window_size": 30,
-            "allowlist": ["NOUN", "VERB", "ADJ", "ADV"],
+            "allowlist": ["NOUN", "ADJ"],
             "denylist": [],
             "model": "chiasmus_de.pkl"
+        },
+        "metaphor": {
+          "model": "metaphor_de.torch"
+        },
+        "epiphora": {
+          "min_length": 2,
+          "conj": ["und", "oder", "aber", "denn", "doch", "sondern"],
+          "punct_pos": ["PUNCT", "SYM"]
+        },
+        "polysyndeton": {
+          "min_length": 2,
+          "conj": ["und", "oder", "aber", "denn", "doch", "sondern"],
+          "punct_pos": ["PUNCT", "SYM"],
+          "sentence_end_tokens": ["!", "?", ".", ";", ":", "…"]
+        },
+        "alliteration": {
+          "min_length": 3,
+          "max_skip": 1,
+          "ignore_tokens": []
         }
+
     }
 }

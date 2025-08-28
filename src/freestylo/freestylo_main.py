@@ -42,7 +42,6 @@ def main():
     parser.add_argument("--output", help="Output file. Used for annotate mode.", default="")
     parser.add_argument("--config", help="Configuration file. Used for annotate mode.", default="")
     parser.add_argument("--data", help="Data json file. Used for report mode.", default="")
-    parser.add_argument("--device", help="Stylistic device to report. Used for report mode.", default="", choices=["chiasmus", "metaphor", "epiphora", "polysyndeton", "alliteration"])
     args = parser.parse_args()
 
     if args.mode == "annotate":
@@ -59,18 +58,15 @@ def report(args : argparse.Namespace):
     if args.data == "":
         print("Please specify a data file")
         fail = True
-    if args.device == "":
-        print("Please specify a device to report")
-        fail = True
     if fail:
         print("Type freestylo --help for needed arguments")
         print("Exiting...")
         return
 
-    if args.device == "chiasmus":
-        report_chiasmus(args)
-    else:
-        raise NotImplementedError(args.device + " reporting not implemented yet")
+    report_chiasmus(args)
+    report_metaphor(args)
+    report_epiphora(args)
+    report_alliteration(args)
 
 
 def build_chiasmus_sentence(tokens, ids):
@@ -120,8 +116,96 @@ def report_chiasmus(args : argparse.Namespace):
         print_lines_aligned([tokens_print, pos_print])
         print()
 
+def report_metaphor(args : argparse.Namespace):
+    """
+    This function reports the results of the metaphor analysis.
+    It takes the data file as an argument and prints the top metaphor candidates.
+    """
+
+    with open(args.data) as f:
+        data = json.load(f)
+    tokens = data["tokens"]
+    pos = data["pos"]
+    metaphors = data["annotations"]["metaphor"]
+    scores = [c["score"] for c in metaphors]
+    ids = [c["ids"] for c in metaphors]
+    index = np.argsort(scores)[::-1]
+    max = min(10, len(scores))
+    print("Top", max, "metaphor candidates:")
+    for i in range(max):
+        score = scores[index[i]]
+        ids_local = ids[index[i]]
+
+        tokens_print = [tokens[i] for i in ids_local]
+        pos_print = [pos[i] for i in ids_local]
+
+        print("Score:", score, "ID:", ids_local)
+        print_lines_aligned([tokens_print, pos_print])
+        print()
 
 
+def report_epiphora(args : argparse.Namespace):
+    """
+    This function reports the results of the epiphora analysis.
+    It takes the data file as an argument and prints the top epiphora candidates.
+    """
+    with open(args.data) as f:
+        data = json.load(f)
+
+    tokens = data["tokens"]
+    pos = data["pos"]
+
+    epiphora = data["annotations"]["epiphora"]
+    scores = [c["score"] for c in epiphora]
+    ids = [c["ids"] for c in epiphora]
+
+    index = np.argsort(scores)[::-1]
+
+    max = min(10, len(scores))
+
+    print("Top", max, "epiphora candidates:")
+    for i in range(max):
+        score = scores[index[i]]
+        ids_local = [ids[index[i]][0][0], ids[index[i]][-1][1]]
+
+        tokens_print = [tokens[i] for i in range(ids_local[0], ids_local[1]+1)]
+        pos_print = [pos[i] for i in range(ids_local[0], ids_local[1]+1)]
+
+        print("Score:", score, "ID:", ids_local)
+        print_lines_aligned([tokens_print, pos_print])
+        print()
+
+def report_alliteration(args : argparse.Namespace):
+    """
+    This function reports the results of the alliteration analysis.
+    It takes the data file as an argument and prints the top alliteration candidates.
+    """
+
+    with open(args.data) as f:
+        data = json.load(f)
+
+    tokens = data["tokens"]
+    pos = data["pos"]
+
+    alliteration = data["annotations"]["alliteration"]
+    scores = [c["score"] for c in alliteration]
+    ids = [c["ids"] for c in alliteration]
+
+    index = np.argsort(scores)[::-1]
+
+    max = min(10, len(scores))
+
+    print("Top", max, "alliteration candidates:")
+    for i in range(max):
+        score = scores[index[i]]
+        ids_local = ids[index[i]]
+
+        tokens_print = [tokens[i] for i in range(ids_local[0], ids_local[-1]+1)]
+        pos_print = [pos[i] for i in range(ids_local[0], ids_local[-1]+1)]
+
+        print("Score:", score, "ID:", ids_local)
+        print_lines_aligned([tokens_print, pos_print])
+        print()
 
 
 
