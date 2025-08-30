@@ -4,30 +4,6 @@ An easy-to-use package for detecting **stylistic devices** in text. Designed for
 
 This document provides a complete reference to FreeStylo, including installation, usage as a CLI tool and as a Python library, and detailed documentation for each class.
 
----
-
-# Table of Contents
-
-1. [Installation](#installation)
-2. [Command Line Interface (CLI)](#command-line-interface-cli)
-3. [Library Usage](#library-usage)
-4. [Core Classes](#core-classes)
-
-   * [TextObject](#textobject)
-   * [TextPreprocessor](#textpreprocessor)
-   * [MGHPreprocessor](#mghpreprocessor)
-5. [Stylistic Device Detectors](#stylistic-device-detectors)
-
-   * [ChiasmusAnnotation](#chiasmusannotation)
-   * [MetaphorAnnotation](#metaphorannotation)
-   * [EpiphoraAnnotation](#epiphoraannotation)
-   * [PolysyndetonAnnotation](#polysyndetonannotation)
-   * [AlliterationAnnotation](#alliterationannotation)
-6. [Models and Languages](#models-and-languages)
-7. [Extending FreeStylo](#extending-freestylo)
-
----
-
 # Installation
 
 FreeStylo requires **Python 3.12**.
@@ -39,6 +15,21 @@ pip install freestylo
 ```
 
 It is recommended to install into a virtual environment.
+
+---
+
+# Configuration
+
+The package can be configured using the configuration file under `~/.config/freestylo/config.json`. This file will be created when the tool is first run or the library needs information from the config file.
+Currently only the model download location can be configured.
+The model path can also be overridden by setting the environment variable `FREESTYLO_MODEL_PATH`.
+
+The default configuration is:
+```json
+{
+    "model_path": "~/.freestylo/models/"
+}
+```
 
 ---
 

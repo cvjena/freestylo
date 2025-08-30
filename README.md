@@ -13,6 +13,20 @@ The package is available on PyPi and can be installed using pip.
 ```
 pip install freestylo
 ```
+
+# Configuration
+
+The package can be configured using the configuration file under `~/.config/freestylo/config.json`. This file will be created when the tool is first run or the library needs information from the config file.
+Currently only the model download location can be configured.
+The model path can also be overridden by setting the environment variable `FREESTYLO_MODEL_PATH`.
+
+The default configuration is:
+```json
+{
+    "model_path": "~/.freestylo/models/"
+}
+```
+
 # Usage Examples
 
 ## Standalone Tool
@@ -76,6 +90,7 @@ from freestylo import MetaphorAnnotation as ma
 
 # first, create a TextObject from the raw text
 text = to.TextObject(
+        # put the path to your text file here
         textfile = "example_textfile.txt",
         language="en")
 
@@ -103,14 +118,14 @@ chiasmus = ca.ChiasmusAnnotation(
         text=text)
 chiasmus.allowlist = ["NOUN", "VERB", "ADJ", "ADV"]
 chiasmus.find_candidates()
-chiasmus.load_classification_model("chiasmus_model.pkl")
+chiasmus.load_classification_model("chiasmus_de.pkl")
 chiasmus.score_candidates()
 
 # here, we add a metaphor annotation
 metaphor = ma.MetaphorAnnotation(
         text=text)
 metaphor.find_candidates()
-metaphor.load_model("metaphor_model.pkl")
+metaphor.load_model("metaphor_de.pkl")
 metaphor.score_candidates()
 
 # finally, save the annotated text to a json file

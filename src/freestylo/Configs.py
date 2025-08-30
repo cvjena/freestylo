@@ -30,21 +30,11 @@ model_list = [
 
 model_base_url = "https://www.felixschneider.xyz/download/models/"
 
-def get_model_path(model_to_load : str) -> str:
-    """
-    This function checks if the model is already downloaded.
-    If not, it downloads the model from the given URL and extracts it.
-    """
-
-    if os.path.exists(model_to_load):
-        print("found model locally")
-        return model_to_load
-
+def get_config_dict():
     user_path = os.path.expanduser("~")
     config_path = os.path.join(user_path, ".config/freestylo/")
     config_file = os.path.join(config_path, "config.json")
     if not os.path.exists(config_file):
-
         os.makedirs(config_path, exist_ok=True)
         with open(config_file, "w") as f:
             json.dump(
@@ -54,6 +44,19 @@ def get_model_path(model_to_load : str) -> str:
 
     with open(config_file, "r") as f:
         config = json.load(f)
+
+    # read model_path environment variable
+    if "FREESTYLO_MODEL_PATH" in os.environ:
+        config["model_path"] = os.environ["FREESTYLO_MODEL_PATH"]
+
+    return config
+
+def get_model_path(model_to_load : str) -> str:
+    if os.path.exists(model_to_load):
+        print("found model locally")
+        return model_to_load
+
+    config = get_config_dict()
 
     model_path = config["model_path"]
 
