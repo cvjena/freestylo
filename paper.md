@@ -58,14 +58,14 @@ stylistic device detectors.
 
 # Statement of need
 
-Stylotool is a package that provides a collection of approaches to detect
+Freestylo is a package that provides a collection of approaches to detect
 stylistic devices in text. While there exists a great variety of NLP libraries
 like nltk [@nltk], spaCy [@spacy], or cltk [@cltk] and command-line tools like
 CWB [@cwb], or UCS [@ucs] for the processing and low level analysis of text,
 there is a lack of tools that are specifically designed for the detection of
 stylistic devices.
 Current options in this space would be for figurative language the online
-tool Figurative Checker [@figurativechecker] or the MMFLD framework [@lai-etal-2023-multi],
+tool Figurative Checker [@figurativechecker2023] or the MMFLD framework [@lai-etal-2023-multi],
 which is a python framework. Other frameworks would be [@kuhn2024antithesis]
 for the detection of antithesis, [@Li2023MetaphorDV] for the detection of
 metaphors, [@schneider2021datadriven] for the detection of chiasmus,
@@ -158,7 +158,7 @@ words with the same initial letter. An example for alliterative verse would be
 *"Pondering on the pending paper, I programmed the python package."* The user
 can specify the maximum number of words that are allowed to be in between the
 alliterated words, as well as words and POS-tags that do not count towards the
-non-alliterated words. Since for example spaCy also tags punctuation and
+non-alliterated words. For example spaCy also tags punctuation and
 newlines, the user can specify those to be excluded from the alliteration.
 
 ## Epiphora
@@ -209,7 +209,7 @@ The standalone version can be configured using a simple JSON configuration file.
 You can then run the tool using the following command:
 
 ```bash
-stylotool --config config.json --input input.txt --output output.json
+freestylo --config config.json --input input.txt --output output.json
 ```
 
 This will read the text from the file `input.txt`, preprocess (tokenize, POS-tag, etc.) the text, detect the stylistic devices specified in the configuration file, and write the results to the file `output.json`.
