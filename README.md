@@ -31,7 +31,20 @@ The default configuration is:
 
 ## Standalone Tool
 
-After installation, run the following command in the root of the repository:
+After installation, you can run the following command to test that the tool is installed correctly. 
+
+If you've cloned the git repository, run this command in the root of the repository. If you've used pip to install the package, first you'll need to download the input and configuration files.
+
+<details>
+
+<summary>Download test input and example configuration</summary>
+
+```bash
+wget https://raw.githubusercontent.com/cvjena/freestylo/refs/heads/main/example_config.json
+wget https://raw.githubusercontent.com/cvjena/freestylo/refs/heads/main/test/documents/chiasmustext.txt
+mkdir -p test/documents && mv chiasmustext.txt test/documents/
+```
+</details>
 
 ```bash
 freestylo --input test/documents/chiasmustext.txt \
@@ -44,9 +57,10 @@ This creates the file `output.json` in the root of the repository, which contain
 Afterwards, run the following command to get an overview over the results:
 
 ```bash
-freestylo --mode report \
-    --data output.json
+
+freestylo --mode report --data output.json
 ```
+
 
 The package can be used both as a library and as a stand-alone command-line tool.
 Both from the library and from the command-line tool, the results can be saved in a JSON file.
