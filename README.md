@@ -51,15 +51,16 @@ freestylo --input test/documents/chiasmustext.txt \
     --output ./output.json \
     --config example_config.json
 ```
+The example_config.json and chiasmustext.txt are contained in this repository. Either download them manually or just clone the repository and run the command from the project root folder.
 
 This creates the file `output.json` in the root of the repository, which contains the detected stylistic devices in the text file `test/documents/chiasmustext.txt`.
 Afterwards, run the following command to get an overview over the results:
 
 ```bash
-freestylo --mode report --data output.json 
+
+freestylo --mode report --data output.json
 ```
 
-The report mode is currently only implemented for Chiasmus.
 
 The package can be used both as a library and as a stand-alone command-line tool.
 Both from the library and from the command-line tool, the results can be saved in a JSON file.
