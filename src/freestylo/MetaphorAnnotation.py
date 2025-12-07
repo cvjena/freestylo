@@ -116,6 +116,9 @@ class MetaphorAnnotation:
         """
         This method scores the metaphor candidates.
         """
+        if len(self.candidates) == 0:
+            print("No candidates found.")
+            return
         adj_vectors, noun_vectors = self.get_vectors()
         adj_tensor = torch.tensor(adj_vectors, device=self.device).to(self.device)
         noun_tensor = torch.tensor(noun_vectors, device=self.device).to(self.device)

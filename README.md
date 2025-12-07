@@ -71,6 +71,23 @@ The standalone version can be configured using a simple JSON configuration file.
 }
 ```
 
+The output for the standalone tool is structured as follows:
+
+                'text': self.text,
+                'tokens': self.tokens,
+                'pos': self.pos,
+                'lemmas': self.lemmas,
+                'dep': self.dep,
+                'token_offsets': self.token_offsets,
+                'annotations': annotations
+
+First, it contains a whole copy of the text in the `text` field.
+It then contains the preprocessed lists of tokens, POS tags, lemmas, dependency labels and token offsets.
+Finally, it contains an `annotations` field that contains the detected stylistic devices.
+This field is a dictionary that contains one entry for each stylistic device detector that was applied to the text.
+The exact information contained in the annotations depends on the stylistic device detector, but generally they contain the ids of the tokens that are part of the detected devices, meaning their index in the`tokens` list (and respectively in the `pos`, `lemmas`, etc. lists) as well as a score that indicates the likelihood of the detected device being a true positive.
+
+
 ## Library
 
 The library comprises a collection of functions to detect the stylistic devices, as well as preprocessing based on spaCy.
@@ -125,7 +142,7 @@ chiasmus.score_candidates()
 metaphor = ma.MetaphorAnnotation(
         text=text)
 metaphor.find_candidates()
-metaphor.load_model("metaphor_de.pkl")
+metaphor.load_model("metaphor_de.torch")
 metaphor.score_candidates()
 
 # finally, save the annotated text to a json file

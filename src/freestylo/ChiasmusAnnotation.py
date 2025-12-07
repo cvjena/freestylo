@@ -156,6 +156,9 @@ class ChiasmusAnnotation:
         This method scores the chiasmus candidates.
         """
         features = []
+        if len(self.candidates) == 0:
+            print("No candidates found to score.")
+            return False
         for candidate in tqdm(self.candidates):
             features.append(self.get_features(candidate))
         if self.model is None:
