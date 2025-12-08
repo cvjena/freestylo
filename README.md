@@ -55,6 +55,12 @@ Both from the library and from the command-line tool, the results can be saved i
 This json file will contain the complete tokenized text.
 When using the functions from the library, the result will be a python container with a similar structure to the JSON file.
 
+To only download the models without running any annotation, use the following command:
+
+```bash
+freestylo --mode download_models
+```
+
 The standalone version can be configured using a simple JSON configuration file. The file should specify the language of the text and the stylistic devices to detect. The following is an example configuration file:
 
 ```json

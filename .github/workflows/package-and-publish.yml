@@ -55,6 +55,9 @@ jobs:
         pip install
         dist/*.whl
         --user
+    - name: download the model files
+      run: >-
+        python3 freestylo --mode download_models
     - name: Run the tests
       run: python3 -m pytest
 

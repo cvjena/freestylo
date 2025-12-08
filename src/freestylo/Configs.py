@@ -51,11 +51,7 @@ def get_config_dict():
 
     return config
 
-def get_model_path(model_to_load : str) -> str:
-    if os.path.exists(model_to_load):
-        print("found model locally")
-        return model_to_load
-
+def download_models():
     config = get_config_dict()
 
     model_path = config["model_path"]
@@ -71,6 +67,19 @@ def get_model_path(model_to_load : str) -> str:
             if model.endswith(".zip"):
                 with zipfile.ZipFile(os.path.join(model_path, model), 'r') as zip_ref:
                     zip_ref.extractall(model_path)
+
+
+def get_model_path(model_to_load : str) -> str:
+    # First, make sure that all models are downloaded
+    download_models()
+
+    # Then continue to get the model path - either one of the downloaded models or a custom path
+    config = get_config_dict()
+    model_path = config["model_path"]
+    if os.path.exists(model_to_load):
+        print("found model locally")
+        return model_to_load
+
 
 
     model_to_load = os.path.join(model_path, model_to_load)

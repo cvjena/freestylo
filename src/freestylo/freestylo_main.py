@@ -37,7 +37,7 @@ def main():
     The results are then serialized to a file.
     """
     parser = argparse.ArgumentParser(description="Stylometric analysis tool")
-    parser.add_argument("--mode", help="Mode of operation", default="annotate", choices=["annotate", "report"])
+    parser.add_argument("--mode", help="Mode of operation", default="annotate", choices=["annotate", "report", "download_models"])
     parser.add_argument("--input", help="Input text file. Used for annotate mode.", default="")
     parser.add_argument("--output", help="Output file. Used for annotate mode.", default="")
     parser.add_argument("--config", help="Configuration file. Used for annotate mode.", default="")
@@ -48,6 +48,33 @@ def main():
         annotate(args)
     elif args.mode == "report":
         report(args)
+    elif args.mode == "download_models":
+        model_download(args)
+    else:
+        print("Unknown mode:", args.mode)
+        print("Exiting...")
+        return
+
+def model_download(args : argparse.Namespace):
+    """
+    This function is used to download the models needed for the analysis.
+    """
+    print("Downloading models...")
+    from freestylo.Configs import download_models
+    downloaded = False
+    try_counter = 0
+    max_tries = 5
+    while not downloaded:
+        try:
+            download_models()
+        except Exception as e:
+            print("Error downloading models:", e)
+            print("Retrying...")
+            try_counter += 1
+        if try_counter >= max_tries:
+            print("Failed to download models after", max_tries, "tries. Exiting...")
+            return
+
 
 def report(args : argparse.Namespace):
     """
