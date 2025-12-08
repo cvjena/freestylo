@@ -57,7 +57,7 @@ jobs:
         --user
     - name: download the model files
       run: >-
-        python3 freestylo --mode download_models
+        freestylo --mode download_models
     - name: Run the tests
       run: python3 -m pytest
 
