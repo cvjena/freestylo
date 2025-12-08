@@ -87,14 +87,15 @@ Currently reports for **Chiasmus**, **Metaphor**, **Epiphora**, and **Alliterati
 Example usage as a Python library:
 
 ```python
-from freestylo import TextObject, TextPreprocessor
+from freestylo import TextObject as to
+from freestylo import TextPreprocessor as tp
 from freestylo import ChiasmusAnnotation, MetaphorAnnotation
 
 # Create a TextObject
-text = TextObject(text="This is an example text.", language="en")
+text = to.TextObject(text="This is an example text.", language="en")
 
 # Preprocess the text
-pre = TextPreprocessor(language="en")
+pre = tp.TextPreprocessor(language="en")
 pre.process_text(text)
 
 # Run detectors
