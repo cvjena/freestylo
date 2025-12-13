@@ -5,7 +5,7 @@ on: push
 jobs:
   build:
     name: Build distribution 📦
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v4
@@ -55,6 +55,10 @@ jobs:
         pip install
         dist/*.whl
         --user
+    - name: Disable IPv6 (diagnostic)
+      run: |
+        sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+        sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
     - name: download the model files
       run: >-
         freestylo --mode download_models
