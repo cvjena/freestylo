@@ -137,7 +137,7 @@ chiasmus.score_candidates()
 metaphor = ma.MetaphorAnnotation(
         text=text)
 metaphor.find_candidates()
-metaphor.load_model("metaphor_de.pkl")
+metaphor.load_model("metaphor_de.torch")
 metaphor.score_candidates()
 
 # finally, save the annotated text to a json file
