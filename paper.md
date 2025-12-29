@@ -67,7 +67,7 @@ stylistic devices.
 Current options in this space would be for figurative language the online
 tool Figurative Checker [@figurativechecker2023] or the MMFLD framework [@lai-etal-2023-multi],
 which is a python framework. Other frameworks would be [@kuhn2024antithesis]
-for the detection of antithesis, [@Li2023MetaphorDV] for the detection of
+for the detection of antithesis, [@li-etal-2023-metaphor] for the detection of
 metaphors, [@schneider2021datadriven] for the detection of chiasmus,
 or [@dubremetz2017chiasmus] for antimetabole detection.
 Other tools are available for e.g. the detection of rhymes [@coles2019rhyme, @marozick2021rap].
